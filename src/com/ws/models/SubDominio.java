@@ -5,7 +5,7 @@ public class SubDominio {
     private int id;
 	private String codice;
     private String descrizione;
-    private Dominio tipoPadre;
+    private Dominio tipoPadre = new Dominio();
 
     public SubDominio(){
 

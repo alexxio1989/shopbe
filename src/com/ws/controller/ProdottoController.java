@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,22 +23,22 @@ public class ProdottoController implements IController<Prodotto,ProdottoResponse
 
 
     @Override
-    public ResponseEntity<ProdottoResponse> delete(Prodotto obj) throws DataAccessException, SQLException  {
+    public ResponseEntity<ProdottoResponse> delete(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
         return repo.delete(obj);
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> get(Prodotto obj) throws DataAccessException, SQLException  {
+    public ResponseEntity<ProdottoResponse> get(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
         return repo.get(obj);
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> save(Prodotto obj) throws DataAccessException, SQLException  {
+    public ResponseEntity<ProdottoResponse> save(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
         return repo.save(obj);
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> update(Prodotto obj) throws DataAccessException, SQLException  {
+    public ResponseEntity<ProdottoResponse> update(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
         return repo.update(obj);
     }
 

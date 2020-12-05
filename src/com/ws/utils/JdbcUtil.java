@@ -79,13 +79,13 @@ public class JdbcUtil {
 
 			for (Object object : objs) {
 				if( object instanceof String ) {
-					ps.setString(count.intValue(), String.valueOf(object));
+					ps.setString(count.intValue() + 1, String.valueOf(object));
 				}
 				if( object instanceof Integer ) {
-					ps.setInt(count.intValue(), (Integer) object);
+					ps.setInt(count.intValue() + 1, (Integer) object);
 				}
 				if( object instanceof BigDecimal ) {
-					ps.setBigDecimal(count.intValue(), (BigDecimal) object);
+					ps.setBigDecimal(count.intValue() + 1, (BigDecimal) object);
 				}
 				count.incrementAndGet();
 			}

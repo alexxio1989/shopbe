@@ -16,7 +16,7 @@ import com.ws.repository.IUtenteRepo;
 import com.ws.response.UtenteResponse;
 
 @RestController
-@RequestMapping("/utente")
+@RequestMapping("/user")
 public class UtenteController implements IController<Utente,UtenteResponse> {
 
 

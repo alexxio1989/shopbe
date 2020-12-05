@@ -75,7 +75,7 @@ public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse
     @Override
     public ResponseEntity<ProdottoResponse> get(Prodotto obj) throws DataAccessException, SQLException {
         ProdottoResponse prodottoResponse = new ProdottoResponse();
-        List<Prodotto> list = jdbcUtil.query(queryGet , rm);
+        List<Prodotto> list = jdbcUtil.query(queryGetAll , rm);
         prodottoResponse.setList(list);
         return Utils.getResponseEntity(prodottoResponse, HttpStatus.OK);
     }

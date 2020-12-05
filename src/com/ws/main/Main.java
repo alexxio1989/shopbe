@@ -2,12 +2,12 @@ package com.ws.main;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ws.models.Utente;
+import com.ws.models.SubDominio;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Utente utente = new Utente();
+		SubDominio utente = new SubDominio();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 		  String json = mapper.writeValueAsString(utente);
