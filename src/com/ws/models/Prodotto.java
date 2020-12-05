@@ -8,7 +8,7 @@ public class Prodotto {
     private String nomeProdotto;
     private String descrizione;
     private BigDecimal prezzo;
-    private SubDominio tipo;
+    private SubDominio tipo = new SubDominio();
     private String image;
     private int qntRimanente;
 

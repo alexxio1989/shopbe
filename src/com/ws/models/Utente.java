@@ -10,7 +10,7 @@ public class Utente {
     private String email;
     private String password;
     private Dominio tipoUtente;
-    private Recapito recapito;
+    private Recapito recapito = new Recapito();
     private List<Ordine> ordini;
     private List<Acquisto> acquisti;
 
