@@ -13,32 +13,43 @@ import com.ws.controller.core.IController;
 import com.ws.models.Dominio;
 import com.ws.repository.ITipoRepo;
 import com.ws.response.TipoResponse;
+import com.ws.utils.Utils;
 
 @RestController
 @RequestMapping("/tipo")
 public class TipoController implements IController<Dominio,TipoResponse>  {
 	
 	@Autowired
-    private ITipoRepo<Dominio,TipoResponse> repo;
+    private ITipoRepo repo;
 
 	@Override
 	public ResponseEntity<TipoResponse> save(@RequestBody Dominio obj) throws DataAccessException, SQLException {
-		return repo.save(obj);
+		TipoResponse res = repo.save(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 	@Override
 	public ResponseEntity<TipoResponse> update(@RequestBody Dominio obj) throws DataAccessException, SQLException {
-		return null;
+		TipoResponse res = repo.update(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 	@Override
 	public ResponseEntity<TipoResponse> get(@RequestBody Dominio obj) throws DataAccessException, SQLException {
-		return repo.get(obj);
+		TipoResponse res = repo.get(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 	@Override
 	public ResponseEntity<TipoResponse> delete(@RequestBody Dominio obj) throws DataAccessException, SQLException {
-		return repo.delete(obj);
+		TipoResponse res = repo.delete(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
+	}
+
+	@Override
+	public ResponseEntity<TipoResponse> getAll() throws DataAccessException, SQLException {
+		TipoResponse res = repo.getAll();
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 }

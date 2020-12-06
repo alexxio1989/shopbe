@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ws.controller.core.IController;
-import com.ws.models.Dominio;
 import com.ws.models.SubDominio;
 import com.ws.repository.ISottoTipoRepo;
-import com.ws.repository.ITipoRepo;
-import com.ws.response.TipoResponse;
 import com.ws.utils.Utils;
 
 @RestController
@@ -23,26 +20,36 @@ import com.ws.utils.Utils;
 public class SottoTipoController implements IController<SubDominio,SubDominio>   {
 	
 	@Autowired
-    private ISottoTipoRepo<SubDominio,SubDominio> repo;
+    private ISottoTipoRepo repo;
 
 	@Override
 	public ResponseEntity<SubDominio> save(@RequestBody SubDominio obj) throws DataAccessException, SQLException {
-		return Utils.getResponseEntity(repo.save(obj), HttpStatus.OK);
+		SubDominio res = repo.save(obj);
+		return Utils.getResponseEntity(res, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<SubDominio> update(@RequestBody SubDominio obj) throws DataAccessException, SQLException {
-		return Utils.getResponseEntity(repo.update(obj), HttpStatus.OK);
+		SubDominio res = repo.update(obj);
+		return Utils.getResponseEntity(res, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<SubDominio> get(@RequestBody SubDominio obj) throws DataAccessException, SQLException {
-		return Utils.getResponseEntity(repo.get(obj), HttpStatus.OK);
+		SubDominio res = repo.get(obj);
+		return Utils.getResponseEntity(res, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<SubDominio> delete(@RequestBody SubDominio obj) throws DataAccessException, SQLException {
-		return Utils.getResponseEntity(repo.delete(obj), HttpStatus.OK);
+		SubDominio res = repo.delete(obj);
+		return Utils.getResponseEntity(res, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<SubDominio> getAll() throws DataAccessException, SQLException {
+		SubDominio res = repo.getAll();
+		return Utils.getResponseEntity(res, HttpStatus.OK);
 	}
 
 }

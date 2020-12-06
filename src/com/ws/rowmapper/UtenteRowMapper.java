@@ -25,7 +25,7 @@ public class UtenteRowMapper implements RowMapper<Utente> {
     private TipoRowMapper trrm;
 
     @Autowired
-    private IRecapitoRepo<Recapito,Recapito>  recapitoRepo;
+    private IRecapitoRepo recapitoRepo;
 
     @Override
     public Utente mapRow(ResultSet rs, int rowNum) throws SQLException {

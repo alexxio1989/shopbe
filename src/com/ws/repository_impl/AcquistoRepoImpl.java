@@ -1,7 +1,9 @@
 package com.ws.repository_impl;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Acquisto;
@@ -9,7 +11,7 @@ import com.ws.repository.IAcquistoRepo;
 import com.ws.response.AcquistoResponse;
 
 @Repository
-public class AcquistoRepoImpl implements IAcquistoRepo<Acquisto,AcquistoResponse> {
+public class AcquistoRepoImpl implements IAcquistoRepo{
 
     @Value("${acquisto.save}")
     protected String querySave;
@@ -24,27 +26,33 @@ public class AcquistoRepoImpl implements IAcquistoRepo<Acquisto,AcquistoResponse
     protected String queryGet;
 
     @Override
-    public ResponseEntity<AcquistoResponse> save(Acquisto obj) {
+    public AcquistoResponse save(Acquisto obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<AcquistoResponse> update(Acquisto obj) {
+    public AcquistoResponse update(Acquisto obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<AcquistoResponse> get(Acquisto obj) {
+    public AcquistoResponse get(Acquisto obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<AcquistoResponse> delete(Acquisto obj) {
+    public AcquistoResponse delete(Acquisto obj) {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public AcquistoResponse getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

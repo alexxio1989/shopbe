@@ -1,18 +1,8 @@
 package com.ws.repository;
-import java.sql.SQLException;
-
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
+import com.ws.models.Recapito;
+import com.ws.repository.core.IRepository;
 
 
-public interface IRecapitoRepo<I,O>{
-
-   public O save(I obj) throws DataAccessException, SQLException  ;
-    
-   public O update(I obj) throws DataAccessException, SQLException ;
-
-   public O get(I obj) throws DataAccessException, SQLException ;
-
-   public O delete(I obj) throws DataAccessException, SQLException ;
-    
+public interface IRecapitoRepo extends IRepository<Recapito,Recapito>{
+	
 }

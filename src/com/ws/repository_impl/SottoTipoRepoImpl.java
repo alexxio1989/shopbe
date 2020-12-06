@@ -13,7 +13,7 @@ import com.ws.rowmapper.SottoTipoRowMapper;
 import com.ws.utils.JdbcUtil;
 
 @Repository
-public class SottoTipoRepoImpl implements ISottoTipoRepo<SubDominio,SubDominio> {
+public class SottoTipoRepoImpl implements ISottoTipoRepo{
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -60,5 +60,11 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo<SubDominio,SubDominio> 
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public SubDominio getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

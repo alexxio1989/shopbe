@@ -5,7 +5,7 @@ import java.util.List;
 public class Magazino {
 
     private int id;
-    private Prodotto prodottoSelected;
+    private Prodotto prodottoSelected = new Prodotto();
     private List<Prodotto> prodotti;
     private int idNegozio;
 

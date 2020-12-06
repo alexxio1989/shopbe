@@ -7,18 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Prodotto;
 import com.ws.repository.IProdottoRepo;
+import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.ProdottoResponse;
+import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.ProdottoRowMapper;
 import com.ws.utils.JdbcUtil;
-import com.ws.utils.Utils;
 
 @Repository
-public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse> {
+public class ProdottoRepoImpl implements IProdottoRepo {
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -42,7 +42,7 @@ public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse
     protected String queryGetAll;
 
     @Override
-    public ResponseEntity<ProdottoResponse> save(Prodotto obj) throws DataAccessException, SQLException {
+    public ProdottoResponse save(Prodotto obj) throws DataAccessException, SQLException {
         try {
             jdbcUtil.update(querySave,new Object[] { obj.getNomeProdotto(), 
                                                      obj.getDescrizione(),
@@ -54,11 +54,11 @@ public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return get(obj);
+        return getAll();
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> update(Prodotto obj) throws DataAccessException, SQLException {
+    public ProdottoResponse update(Prodotto obj) throws DataAccessException, SQLException {
         try {
             jdbcUtil.update(queryUpdate,new Object[] { obj.getNomeProdotto(), 
                                                      obj.getDescrizione(),
@@ -69,19 +69,18 @@ public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return get(obj);
+        return getAll();
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> get(Prodotto obj) throws DataAccessException, SQLException {
-        ProdottoResponse prodottoResponse = new ProdottoResponse();
-        List<Prodotto> list = jdbcUtil.query(queryGetAll , rm);
-        prodottoResponse.setList(list);
-        return Utils.getResponseEntity(prodottoResponse, HttpStatus.OK);
+    public ProdottoResponse get(Prodotto obj) throws DataAccessException, SQLException {
+    	ProdottoResponse prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
+    	prodottoResponse.setProdotto(jdbcUtil.queryForObj(queryGet, new Object[] {obj.getId()}, rm));
+        return prodottoResponse;
     }
 
     @Override
-    public ResponseEntity<ProdottoResponse> delete(Prodotto obj) throws DataAccessException, SQLException {
+    public ProdottoResponse delete(Prodotto obj) throws DataAccessException, SQLException {
         try {
             jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
         } catch (DataAccessException e) {
@@ -89,11 +88,19 @@ public class ProdottoRepoImpl implements IProdottoRepo<Prodotto,ProdottoResponse
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return get(obj);
+        return getAll();
     }
 
     @Override
     public Prodotto get(int id) throws DataAccessException, SQLException {
         return jdbcUtil.queryForObj(queryGet, new Object[]{id} , rm);
     }
+
+	@Override
+	public ProdottoResponse getAll() throws DataAccessException, SQLException {
+		ProdottoResponse prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
+        List<Prodotto> list = jdbcUtil.query(queryGetAll , rm);
+        prodottoResponse.setList(list);
+        return prodottoResponse;
+	}
 }

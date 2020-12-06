@@ -16,7 +16,7 @@ import com.ws.rowmapper.MagazinoRowMapper;
 import com.ws.utils.JdbcUtil;
 
 @Repository
-public class MagazinoRepoImpl implements IMagazinoRepo<Magazino, Magazino> {
+public class MagazinoRepoImpl implements IMagazinoRepo{
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -65,8 +65,14 @@ public class MagazinoRepoImpl implements IMagazinoRepo<Magazino, Magazino> {
 
     @Override
     public Magazino delete(Magazino obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryDelete, new Object[] {obj.getProdottoSelected().getId() , obj.getIdNegozio() , obj.getProdottoSelected().getQntRimanente()});
+        jdbcUtil.update(queryDelete, new Object[] {obj.getProdottoSelected().getId() , obj.getIdNegozio() });
         return get(obj);
     }
+
+	@Override
+	public Magazino getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

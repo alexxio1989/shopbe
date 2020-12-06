@@ -4,8 +4,8 @@ public class Negozio {
 
     private int id;
     private String nome;
-    private Magazino magazino;
-    private Recapito recapito;
+    private Magazino magazino = new Magazino();
+    private Recapito recapito = new Recapito();
 
     public int getId() {
         return id;

@@ -34,11 +34,16 @@ public class TipoRowMapper implements RowMapper<Dominio> {
 
         } else if (hasColumn(rs,"idcitta")){
             dominio.setId(rs.getInt("idcitta"));
+        } else if (hasColumn(rs,"idtipo_utente")){
+            dominio.setId(rs.getInt("idtipo_utente"));
         }
         dominio.setCodice(rs.getString("codice"));
         dominio.setDescrizione(rs.getString("descrizione"));
-        List<SubDominio> list = jdbcUtil.query(queryGetSottoTipi ,new Object[] {rs.getInt("idtipo")}, rm);
-        dominio.setSottoTipi(list);
+        if(hasColumn(rs,"idtipo")){
+        	
+        	List<SubDominio> list = jdbcUtil.query(queryGetSottoTipi ,new Object[] {rs.getInt("idtipo")}, rm);
+        	dominio.setSottoTipi(list);
+        }
         return dominio;
     }
     

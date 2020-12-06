@@ -13,7 +13,7 @@ import com.ws.rowmapper.RecapitoRowMapper;
 import com.ws.utils.JdbcUtil;
 
 @Repository
-public class RecapitoRepoImpl implements IRecapitoRepo<Recapito,Recapito> {
+public class RecapitoRepoImpl implements IRecapitoRepo {
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -35,7 +35,7 @@ public class RecapitoRepoImpl implements IRecapitoRepo<Recapito,Recapito> {
 
     @Override
     public Recapito save(Recapito obj) throws DataAccessException, SQLException {
-        int id = jdbcUtil.saveAndGetId(new Object[] {obj.getIndirizzo(),obj.getZip(),obj.getTelefono(),obj.getCitta().getId()}, querySave);
+        int id = jdbcUtil.saveAndGetId(new Object[] {obj.getIndirizzo(),obj.getZip(),obj.getTelefono(),obj.getCitta()}, querySave);
         Recapito findRecapito = new Recapito();
         findRecapito.setId(id);
         return get(findRecapito);
@@ -56,5 +56,11 @@ public class RecapitoRepoImpl implements IRecapitoRepo<Recapito,Recapito> {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public Recapito getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

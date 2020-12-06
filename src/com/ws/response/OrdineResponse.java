@@ -1,10 +1,17 @@
 package com.ws.response;
 
+import org.springframework.http.HttpStatus;
+
 import com.ws.models.Negozio;
 import com.ws.models.Utente;
 import com.ws.response.core.ResponseCore;
 
 public class OrdineResponse extends ResponseCore {
+	
+	public OrdineResponse(HttpStatus httpStatus, String status) {
+		super.setHttpStatus(httpStatus);
+		super.setStatus(status);
+	}
 
     private Negozio negozio;
     private Utente utente;

@@ -1,8 +1,10 @@
 package com.ws.repository_impl;
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Ordine;
@@ -11,7 +13,7 @@ import com.ws.response.OrdineResponse;
 import com.ws.utils.JdbcUtil;
 
 @Repository
-public class OrdineRepoImpl implements IOrdineRepo<Ordine,OrdineResponse> {
+public class OrdineRepoImpl implements IOrdineRepo{
 
     @Value("${ordine.save}")
     protected String querySave;
@@ -29,27 +31,33 @@ public class OrdineRepoImpl implements IOrdineRepo<Ordine,OrdineResponse> {
     public JdbcUtil jdbcUtil;
 
     @Override
-    public ResponseEntity<OrdineResponse> save(Ordine obj) {
+    public OrdineResponse save(Ordine obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<OrdineResponse> update(Ordine obj) {
+    public OrdineResponse update(Ordine obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<OrdineResponse> get(Ordine obj) {
+    public OrdineResponse get(Ordine obj) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ResponseEntity<OrdineResponse> delete(Ordine obj) {
+    public OrdineResponse delete(Ordine obj) {
         // TODO Auto-generated method stub
         return null;
     }
+
+	@Override
+	public OrdineResponse getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

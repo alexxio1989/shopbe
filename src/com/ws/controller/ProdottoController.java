@@ -13,34 +13,45 @@ import com.ws.controller.core.IController;
 import com.ws.models.Prodotto;
 import com.ws.repository.IProdottoRepo;
 import com.ws.response.ProdottoResponse;
+import com.ws.utils.Utils;
 
 @RestController
 @RequestMapping("/prodotto")
 public class ProdottoController implements IController<Prodotto,ProdottoResponse> {
 
     @Autowired
-    private IProdottoRepo<Prodotto,ProdottoResponse> repo;
+    private IProdottoRepo repo;
 
 
     @Override
     public ResponseEntity<ProdottoResponse> delete(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
-        return repo.delete(obj);
+    	ProdottoResponse res = repo.delete(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
     }
 
     @Override
     public ResponseEntity<ProdottoResponse> get(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
-        return repo.get(obj);
+    	ProdottoResponse res = repo.get(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
     }
 
     @Override
     public ResponseEntity<ProdottoResponse> save(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
-        return repo.save(obj);
+    	ProdottoResponse res = repo.save(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
     }
 
     @Override
     public ResponseEntity<ProdottoResponse> update(@RequestBody Prodotto obj) throws DataAccessException, SQLException  {
-        return repo.update(obj);
+    	ProdottoResponse res = repo.update(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
     }
+
+	@Override
+	public ResponseEntity<ProdottoResponse> getAll() throws DataAccessException, SQLException {
+		ProdottoResponse res = repo.getAll();
+		return Utils.getResponseEntity(res, res.getHttpStatus());
+	}
 
     
 }

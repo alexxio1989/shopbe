@@ -6,20 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Recapito;
 import com.ws.models.Utente;
 import com.ws.repository.IRecapitoRepo;
 import com.ws.repository.IUtenteRepo;
+import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.UtenteResponse;
+import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.UtenteRowMapper;
 import com.ws.utils.JdbcUtil;
-import com.ws.utils.Utils;
 
 @Repository
-public class UtenteRempoImpl implements IUtenteRepo<Utente,UtenteResponse> {
+public class UtenteRempoImpl implements IUtenteRepo {
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -43,44 +43,50 @@ public class UtenteRempoImpl implements IUtenteRepo<Utente,UtenteResponse> {
     protected String queryLogin;
 
     @Autowired
-    private IRecapitoRepo<Recapito,Recapito> recapitoRepo;
+    private IRecapitoRepo recapitoRepo;
 
 
     @Override
-    public ResponseEntity<UtenteResponse> save(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse();
+    public UtenteResponse save(Utente obj) throws DataAccessException, SQLException {
+        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
         Recapito recapito = recapitoRepo.save(obj.getRecapito());
         jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 2 , recapito.getId());
-        return Utils.getResponseEntity(res, HttpStatus.OK);
+        return res;
     }
 
     @Override
-    public ResponseEntity<UtenteResponse> update(Utente obj) throws DataAccessException, SQLException {
+    public UtenteResponse update(Utente obj) throws DataAccessException, SQLException {
         jdbcUtil.update(queryUpdate,new Object[] { obj.getId() });
         return get(obj);
     }
 
     @Override
-    public ResponseEntity<UtenteResponse> get(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse();
+    public UtenteResponse get(Utente obj) throws DataAccessException, SQLException {
+        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
         Utente utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getId()}, rm);
         res.setUtente(utente);
-        return Utils.getResponseEntity(res, HttpStatus.OK);
+        return res;
     }
 
     @Override
-    public ResponseEntity<UtenteResponse> delete(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse();
+    public UtenteResponse delete(Utente obj) throws DataAccessException, SQLException {
+        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.DELETE));
         jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
-        return Utils.getResponseEntity(res, HttpStatus.OK);
+        return res;
     }
 
     @Override
-    public ResponseEntity<UtenteResponse> login(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse();
+    public UtenteResponse login(Utente obj) throws DataAccessException, SQLException {
+        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.LOGIN));
         Utente utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getEmail(),obj.getPassword()}, rm);
         res.setUtente(utente);
-        return Utils.getResponseEntity(res, HttpStatus.OK);
+        return res;
     }
+
+	@Override
+	public UtenteResponse getAll() throws DataAccessException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

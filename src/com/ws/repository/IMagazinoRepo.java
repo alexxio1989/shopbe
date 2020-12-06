@@ -1,17 +1,8 @@
 package com.ws.repository;
 
-import java.sql.SQLException;
+import com.ws.models.Magazino;
+import com.ws.repository.core.IRepository;
 
-import org.springframework.dao.DataAccessException;
-
-public interface IMagazinoRepo<I,O>{
-
-   public O save(I obj) throws DataAccessException, SQLException  ;
-    
-   public O update(I obj) throws DataAccessException, SQLException ;
-
-   public O get(I obj) throws DataAccessException, SQLException ;
-
-   public O delete(I obj) throws DataAccessException, SQLException ;
+public interface IMagazinoRepo extends IRepository<Magazino, Magazino> {
     
 }

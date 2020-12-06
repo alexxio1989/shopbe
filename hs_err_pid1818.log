@@ -1,0 +1,37 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x000000010844693e, pid=1818, tid=23811
+#
+# JRE version: OpenJDK Runtime Environment AdoptOpenJDK (11.0.9.1+1) (build 11.0.9.1+1)
+# Java VM: OpenJDK 64-Bit Server VM AdoptOpenJDK (11.0.9.1+1, mixed mode, tiered, compressed oops, g1 gc, bsd-amd64)
+# Problematic frame:
+# C  [libjimage.dylib+0x193e]  _ZN12ImageStrings4findEP6EndianPKcPij+0x52
+#
+# No core dump will be written. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# If you would like to submit a bug report, please visit:
+#   https://github.com/AdoptOpenJDK/openjdk-support/issues
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:51292 -Dmaven.home=EMBEDDED -Dclassworlds.conf=/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf4913022871355544771.tmp -Dmaven.multiModuleProjectDirectory=/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe -javaagent:/Users/alessiopinna/eclipse/jee-2020-09/Eclipse.app/Contents/Eclipse/configuration/org.eclipse.osgi/399/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 org.codehaus.plexus.classworlds.launcher.Launcher -B clean install spring-boot:run -DskipTests
+
+Host: MacBookAir10,1 x86_64 2400 MHz, 8 cores, 8G, Darwin 20.1.0
+Time: Sun Dec  6 11:46:04 2020 CET elapsed time: 2250.938438 seconds (0d 0h 37m 30s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x00007fc12f8b2000):  JavaThread "Signal Dispatcher" daemon [_thread_in_vm, id=23811, stack(0x0000000304c53000,0x0000000304d53000)]
+
+Stack: [0x0000000304c53000,0x0000000304d53000],  sp=0x0000000304d51340,  free space=1016k
+Native frames: (J=compiled Java code, A=aot compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [libjimage.dylib+0x193e]  _ZN12ImageStrings4findEP6EndianPKcPij+0x52
+C  [libjimage.dylib+0x2598]  _ZNK15ImageFileReader19find_location_indexEPKcPy+0x3e
+C  [libjimage.dylib+0x28d8]  JIMAGE_FindResource+0xcf
+V  [libjvm.dylib+0x1fc817]  _ZN19ClassPathImageEntry11open_streamEPKcP6Thread+0x45
+V  [libjvm.dylib+0x1fed8a]  _ZN11ClassLoader10load_classEP6SymbolbP6Thread+0x144
+V  [libjvm.dylib+0x7484d4]  _ZN16SystemDictionary19load_instance_classEP6Symbol6HandleP6Thread+0x2f6
+V  [libjvm.dylib+0x7475a3]  _ZN16SystemDictionary30resolve_instance_class_or_nullEP6Symbol6HandleS2_P6Thread+0x42f
+V  [libjvm.dylib+0x746dd9]  _ZN16SystemDictionary15resolve_or_failEP6Symbol6HandleS2_bP6Thread+0x1b

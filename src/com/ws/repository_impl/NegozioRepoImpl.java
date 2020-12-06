@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Negozio;
 import com.ws.models.Recapito;
 import com.ws.repository.INegozioRepo;
+import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.NegozioResponse;
+import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.NegozioRowMapper;
 import com.ws.utils.JdbcUtil;
-import com.ws.utils.Utils;
 
 
 @Repository
-public class NegozioRepoImpl implements INegozioRepo<Negozio,NegozioResponse>  {
+public class NegozioRepoImpl implements INegozioRepo {
 
     @Autowired
     private JdbcUtil jdbcUtil;
@@ -47,7 +47,7 @@ public class NegozioRepoImpl implements INegozioRepo<Negozio,NegozioResponse>  {
     protected String queryGetAll;
 
     @Override
-    public ResponseEntity<NegozioResponse> save(Negozio obj) throws DataAccessException, SQLException {
+    public NegozioResponse save(Negozio obj) throws DataAccessException, SQLException {
         Recapito newRecapito = null;
        
         newRecapito = recapitoRepo.save(obj.getRecapito());
@@ -56,27 +56,32 @@ public class NegozioRepoImpl implements INegozioRepo<Negozio,NegozioResponse>  {
             jdbcUtil.update(querySave, new Object[] { obj.getNome(), newRecapito.getId() });
         }
 
-        return get(obj);
+        return getAll();
     }
 
     @Override
-    public ResponseEntity<NegozioResponse> update(Negozio obj) throws DataAccessException, SQLException {
+    public NegozioResponse update(Negozio obj) throws DataAccessException, SQLException {
         jdbcUtil.update(queryUpdate, new Object[] { obj.getNome() , obj.getId()});
-        return get(obj);
+        return getAll();
     }
 
     @Override
-    public ResponseEntity<NegozioResponse> get(Negozio obj) throws DataAccessException, SQLException {
-        NegozioResponse negozioResponse = new NegozioResponse();
+    public NegozioResponse get(Negozio obj) throws DataAccessException, SQLException {
+        return null;
+    }
+
+    @Override
+    public NegozioResponse delete(Negozio obj) throws DataAccessException, SQLException {
+        jdbcUtil.update(queryDelete, new Object[] { obj.getId()});
+        return getAll();
+    }
+
+	@Override
+	public NegozioResponse getAll() throws DataAccessException, SQLException {
+		NegozioResponse negozioResponse = new NegozioResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
         List<Negozio> list = jdbcUtil.query(queryGetAll, rm);
         negozioResponse.setList(list);
-        return Utils.getResponseEntity(negozioResponse, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<NegozioResponse> delete(Negozio obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryDelete, new Object[] { obj.getId()});
-        return get(obj);
-    }
+        return negozioResponse;
+	}
     
 }

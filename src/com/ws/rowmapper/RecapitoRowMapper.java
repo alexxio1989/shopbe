@@ -26,9 +26,10 @@ public class RecapitoRowMapper implements RowMapper<Recapito> {
     @Override
     public Recapito mapRow(ResultSet rs, int rowNum) throws SQLException {
         Recapito recapito = new Recapito();
+        recapito.setId(rs.getInt("idrecapito"));
         recapito.setIndirizzo(rs.getString("indirizzo"));
-        recapito.setZip(rs.getInt("zip"));
-        recapito.setCitta(jdbcUtil.queryForObj(queryGetCitta, new Object[]{rs.getInt("citta_idcitta")} , rm));
+        recapito.setZip(rs.getString("zip"));
+        recapito.setCitta(rs.getString("citta"));
         recapito.setTelefono(rs.getString("telefono"));
         return recapito;
     }
