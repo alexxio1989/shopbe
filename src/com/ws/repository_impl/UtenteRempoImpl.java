@@ -48,9 +48,15 @@ public class UtenteRempoImpl implements IUtenteRepo {
 
     @Override
     public UtenteResponse save(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
-        Recapito recapito = recapitoRepo.save(obj.getRecapito());
-        jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 2 , recapito.getId());
+    	UtenteResponse res = null;
+    	if(getUserByEmail(obj) == null) {
+    		res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+    		Recapito recapito = recapitoRepo.save(obj.getRecapito());
+    		jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 2 , recapito.getId());
+    		
+    	} else {
+    		res = new UtenteResponse(HttpStatus.BAD_REQUEST, "EMAIL NON VALIDA");
+    	}
         return res;
     }
 
@@ -78,10 +84,15 @@ public class UtenteRempoImpl implements IUtenteRepo {
     @Override
     public UtenteResponse login(Utente obj) throws DataAccessException, SQLException {
         UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.LOGIN));
-        Utente utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getEmail(),obj.getPassword()}, rm);
+        Utente utente = getUserByEmail(obj);
         res.setUtente(utente);
         return res;
     }
+
+	private Utente getUserByEmail(Utente obj) throws SQLException {
+		Utente utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getEmail(),obj.getPassword()}, rm);
+		return utente;
+	}
 
 	@Override
 	public UtenteResponse getAll() throws DataAccessException, SQLException {
