@@ -56,5 +56,6 @@ com/ws/models/Magazino.class
 com/ws/repository_impl/RecapitoRepoImpl.class
 com/ws/repository_impl/OrdineRepoImpl.class
 com/ws/rowmapper/SottoTipoRowMapper.class
+com/ws/rowmapper/SottoTipoRowMapperLite.class
 com/ws/repository/IUtenteRepo.class
 com/ws/response/enumresponse/ResponseStatus.class
