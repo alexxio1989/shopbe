@@ -9,6 +9,17 @@ public class Utils {
         return new ResponseEntity<T>(body,statusCode);
     }
     
+    public static String createCode(String x) {
+		StringBuilder builder = new StringBuilder();
+	    String[] myName = x.split(" ");
+	    for (int i = 0; i < myName.length; i++) {
+	        String s = myName[i];
+	        builder.append(s.charAt(0));
+	    }
+	    String str = builder.toString();
+		return str;
+	}
+    
 
 }
 

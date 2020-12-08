@@ -11,6 +11,7 @@ import com.ws.models.SubDominio;
 import com.ws.repository.ISottoTipoRepo;
 import com.ws.rowmapper.SottoTipoRowMapper;
 import com.ws.utils.JdbcUtil;
+import com.ws.utils.Utils;
 
 @Repository
 public class SottoTipoRepoImpl implements ISottoTipoRepo{
@@ -35,7 +36,8 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
 
     @Override
     public SubDominio save(SubDominio obj) throws DataAccessException, SQLException {
-        int id = jdbcUtil.saveAndGetId(new Object[] { obj.getCodice(),obj.getDescrizione(), obj.getTipoPadre().getId()},querySave);
+    	String code = Utils.createCode(obj.getDescrizione());
+        int id = jdbcUtil.saveAndGetId(new Object[] { code,obj.getDescrizione(), obj.getTipoPadre().getId()},querySave);
         return get(id);
     }
 

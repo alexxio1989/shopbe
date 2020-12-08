@@ -16,6 +16,7 @@ import com.ws.response.TipoResponse;
 import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.TipoRowMapper;
 import com.ws.utils.JdbcUtil;
+import com.ws.utils.Utils;
 
 @Repository
 public class TipoRepoImpl implements ITipoRepo{
@@ -44,7 +45,8 @@ public class TipoRepoImpl implements ITipoRepo{
     @Override
     public TipoResponse save(Dominio obj) throws DataAccessException, SQLException {
         try {
-            jdbcUtil.update(querySave,new Object[] { obj.getCodice() , obj.getDescrizione()});
+        	String code = Utils.createCode(obj.getDescrizione());
+            jdbcUtil.update(querySave,new Object[] { code , obj.getDescrizione()});
         } catch (DataAccessException e) {
             e.printStackTrace();
         } catch (SQLException e) {
