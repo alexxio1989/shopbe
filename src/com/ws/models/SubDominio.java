@@ -1,11 +1,14 @@
 package com.ws.models;
 
+import java.util.List;
+
 public class SubDominio {
 
     private int id;
 	private String codice;
     private String descrizione;
     private Dominio tipoPadre = new Dominio();
+    private List<Prodotto> prodottiAssociati;
 
     public SubDominio(){
 
@@ -47,5 +50,14 @@ public class SubDominio {
         this.tipoPadre = tipoPadre;
     }
 
+	public List<Prodotto> getProdottiAssociati() {
+		return prodottiAssociati;
+	}
+
+	public void setProdottiAssociati(List<Prodotto> prodottiAssociati) {
+		this.prodottiAssociati = prodottiAssociati;
+	}
+
+    
     
 }
