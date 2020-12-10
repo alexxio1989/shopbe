@@ -76,20 +76,32 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
     	 
     	 List<Prodotto> listProdotto = jdbcUtil.query(getTipiSottoTipiEProdotti, new Object[]{obj.getIdNegozio()} , prodottoRowMapper);
     	 
+    	 List<Dominio> listDominioNew = new ArrayList<Dominio>();
+    	 
     	 for (Dominio tipo : listDominio) {
-			for (SubDominio sottoTipo : listSubDominio) {
-				if(sottoTipo.getIdPadre() == tipo.getId()) {
-					for (Prodotto prodotto : listProdotto) {
-						if(sottoTipo.getId() == prodotto.getTipo().getId()) {
-							sottoTipo.getProdottiAssociati().add(prodotto);
-						}
-					}
-					tipo.getSottoTipi().add(sottoTipo);
-				}
-			}
+    		if(!listDominioNew.stream().filter(t -> t.getId() == tipo.getId()).findFirst().isPresent()) {
+    			listDominioNew.add(tipo);
+    			
+    		}
 		 }
+    	 for (Dominio tipo : listDominioNew) {
+    		 if(listDominioNew.size() > 0) {
+    			 for (SubDominio sottoTipo : listSubDominio) {
+    				 if(sottoTipo.getIdPadre() == tipo.getId()) {
+    					 for (Prodotto prodotto : listProdotto) {
+    						 if(sottoTipo.getId() == prodotto.getTipo().getId()) {
+    							 sottoTipo.getProdottiAssociati().add(prodotto);
+    						 }
+    					 }
+    					 tipo.getSottoTipi().add(sottoTipo);
+    				 }
+    			 }
+    			 
+    		 }
+    		 
+    	 }
     	
-    	 newMagazino.setTipiAssociati(listDominio);
+    	 newMagazino.setTipiAssociati(listDominioNew);
     	 newMagazino.setIdNegozio(obj.getIdNegozio());
         return newMagazino;
     }
