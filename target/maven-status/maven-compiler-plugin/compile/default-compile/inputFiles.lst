@@ -2,6 +2,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/ProdottoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IMagazinoRepo.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/enumresponse/ResponseStatus.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/TipoRowMapperLite.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IRecapitoRepo.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/AcquistoRepoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Dominio.java

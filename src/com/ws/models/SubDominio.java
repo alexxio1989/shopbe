@@ -1,5 +1,6 @@
 package com.ws.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SubDominio {
@@ -7,8 +8,9 @@ public class SubDominio {
     private int id;
 	private String codice;
     private String descrizione;
+    private int idPadre;
     private Dominio tipoPadre = new Dominio();
-    private List<Prodotto> prodottiAssociati;
+    private List<Prodotto> prodottiAssociati = new ArrayList<Prodotto>();;
 
     public SubDominio(){
 
@@ -57,6 +59,15 @@ public class SubDominio {
 	public void setProdottiAssociati(List<Prodotto> prodottiAssociati) {
 		this.prodottiAssociati = prodottiAssociati;
 	}
+
+	public int getIdPadre() {
+		return idPadre;
+	}
+
+	public void setIdPadre(int idPadre) {
+		this.idPadre = idPadre;
+	}
+	
 
     
     

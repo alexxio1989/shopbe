@@ -9,10 +9,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.ws.models.Dominio;
 import com.ws.models.Magazino;
 import com.ws.models.Prodotto;
+import com.ws.models.SubDominio;
 import com.ws.repository.IMagazinoRepo;
 import com.ws.rowmapper.MagazinoRowMapper;
+import com.ws.rowmapper.ProdottoRowMapper;
+import com.ws.rowmapper.SottoTipoRowMapperLite;
+import com.ws.rowmapper.TipoRowMapperLite;
 import com.ws.utils.JdbcUtil;
 
 @Repository
@@ -23,6 +28,15 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
 
     @Autowired
     private MagazinoRowMapper rm;
+    
+    @Autowired
+    private TipoRowMapperLite tipoRowMapper;
+    
+    @Autowired
+    private SottoTipoRowMapperLite sottoTipoRowMapper;
+    
+    @Autowired
+    private ProdottoRowMapper prodottoRowMapper;
 
     @Value("${magazino.save}")
     protected String querySave;
@@ -35,6 +49,9 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
 
     @Value("${magazino.get}")
     protected String queryGet;
+    
+    @Value("${get.tipi.sottotipi.prodotti}")
+    protected String getTipiSottoTipiEProdotti;
 
     @Override
     public Magazino save(Magazino obj) throws DataAccessException, SQLException {
@@ -50,16 +67,30 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
 
     @Override
     public Magazino get(Magazino obj) throws DataAccessException, SQLException {
-        Magazino newMagazino = new Magazino();
-        List<Magazino> list = jdbcUtil.query(queryGet, new Object[]{obj.getIdNegozio()} , rm);
-        if(list != null && list.size() > 0){
-            newMagazino.setIdNegozio(list.get(0).getIdNegozio());
-            List<Prodotto> newList = new ArrayList<>();
-            for (Magazino magazino : list) {
-                newList.add(magazino.getProdottoSelected());
-            }
-            newMagazino.setProdotti(newList);
-        }
+    	
+    	 Magazino newMagazino = new Magazino();
+    	
+    	 List<Dominio> listDominio = jdbcUtil.query(getTipiSottoTipiEProdotti, new Object[]{obj.getIdNegozio()} , tipoRowMapper);
+    	 
+    	 List<SubDominio> listSubDominio = jdbcUtil.query(getTipiSottoTipiEProdotti, new Object[]{obj.getIdNegozio()} , sottoTipoRowMapper);
+    	 
+    	 List<Prodotto> listProdotto = jdbcUtil.query(getTipiSottoTipiEProdotti, new Object[]{obj.getIdNegozio()} , prodottoRowMapper);
+    	 
+    	 for (Dominio tipo : listDominio) {
+			for (SubDominio sottoTipo : listSubDominio) {
+				if(sottoTipo.getIdPadre() == tipo.getId()) {
+					for (Prodotto prodotto : listProdotto) {
+						if(sottoTipo.getId() == prodotto.getTipo().getId()) {
+							sottoTipo.getProdottiAssociati().add(prodotto);
+						}
+					}
+					tipo.getSottoTipi().add(sottoTipo);
+				}
+			}
+		 }
+    	
+    	 newMagazino.setTipiAssociati(listDominio);
+    	 newMagazino.setIdNegozio(obj.getIdNegozio());
         return newMagazino;
     }
 

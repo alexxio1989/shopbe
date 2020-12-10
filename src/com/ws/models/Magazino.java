@@ -6,8 +6,8 @@ public class Magazino {
 
     private int id;
     private Prodotto prodottoSelected = new Prodotto();
-    private List<Prodotto> prodotti;
     private int idNegozio;
+    private List<Dominio> tipiAssociati;
 
     public int getId() {
         return id;
@@ -25,13 +25,6 @@ public class Magazino {
         this.prodottoSelected = prodottoSelected;
     }
 
-    public List<Prodotto> getProdotti() {
-        return prodotti;
-    }
-
-    public void setProdotti(List<Prodotto> prodotti) {
-        this.prodotti = prodotti;
-    }
 
     public int getIdNegozio() {
         return idNegozio;
@@ -40,5 +33,15 @@ public class Magazino {
     public void setIdNegozio(int idNegozio) {
         this.idNegozio = idNegozio;
     }
+
+	public List<Dominio> getTipiAssociati() {
+		return tipiAssociati;
+	}
+
+	public void setTipiAssociati(List<Dominio> tipiAssociati) {
+		this.tipiAssociati = tipiAssociati;
+	}
+    
+    
     
 }

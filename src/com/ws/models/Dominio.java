@@ -1,5 +1,6 @@
 package com.ws.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dominio {
@@ -7,7 +8,7 @@ public class Dominio {
     private int id;
 	private String codice;
     private String descrizione;
-    private List<SubDominio> sottoTipi;
+    private List<SubDominio> sottoTipi = new ArrayList<SubDominio>();
 
     public int getId() {
         return id;

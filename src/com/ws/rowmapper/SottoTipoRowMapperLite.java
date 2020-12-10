@@ -27,6 +27,7 @@ public class SottoTipoRowMapperLite implements RowMapper<SubDominio> {
         dominio.setId(rs.getInt("idsotto_tipo"));
         dominio.setCodice(rs.getString("codice_figlio"));
         dominio.setDescrizione(rs.getString("descrizione_figlio"));
+        dominio.setIdPadre(rs.getInt("tipo_idtipo"));
         return dominio;
     }
     
