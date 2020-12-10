@@ -53,7 +53,7 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
         return get(id);
     }
 
-    private SubDominio get(int id) throws DataAccessException, SQLException {
+    public SubDominio get(int id) throws DataAccessException, SQLException {
         return jdbcUtil.queryForObj(queryGet, new Object[] {id} , trrm);
     }
 

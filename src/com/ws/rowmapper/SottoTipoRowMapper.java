@@ -30,8 +30,8 @@ public class SottoTipoRowMapper implements RowMapper<SubDominio> {
     public SubDominio mapRow(ResultSet rs, int rowNum) throws SQLException {
         SubDominio dominio = new SubDominio();
         dominio.setId(rs.getInt("idsotto_tipo"));
-        dominio.setCodice(rs.getString("codice"));
-        dominio.setDescrizione(rs.getString("descrizione"));
+        dominio.setCodice(rs.getString("codice_figlio"));
+        dominio.setDescrizione(rs.getString("descrizione_figlio"));
         List<Prodotto> prodottiAssociati = jdbcUtil.query(queryGetProdottiAssociati ,new Object[] {rs.getInt("idsotto_tipo")} ,  rm);;
 		dominio.setProdottiAssociati(prodottiAssociati);
         return dominio;
