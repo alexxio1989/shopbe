@@ -11,6 +11,7 @@ public class Prodotto {
     private SubDominio tipo = new SubDominio();
     private String image;
     private int qntRimanente;
+    private String unita;
 
     public int getId() {
         return id;
@@ -67,6 +68,16 @@ public class Prodotto {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public String getUnita() {
+		return unita;
+	}
+
+	public void setUnita(String unita) {
+		this.unita = unita;
+	}
+	
+	
 
     
 }

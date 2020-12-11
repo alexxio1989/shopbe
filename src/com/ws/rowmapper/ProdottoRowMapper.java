@@ -35,6 +35,7 @@ public class ProdottoRowMapper implements RowMapper<Prodotto> {
         prodotto.setDescrizione(rs.getString("descrizione"));
         prodotto.setImage(rs.getString("image"));
         prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
+        prodotto.setUnita(rs.getString("unita"));
         prodotto.setTipo(jdbcUtil.queryForObj(queryGet, new Object[] {rs.getInt("sotto_tipo_idsotto_tipo")} , trrm));
         return prodotto;
     }

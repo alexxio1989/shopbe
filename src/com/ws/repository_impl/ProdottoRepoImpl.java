@@ -48,7 +48,7 @@ public class ProdottoRepoImpl implements IProdottoRepo {
                                                      obj.getDescrizione(),
                                                      obj.getImage(), 
                                                      obj.getPrezzo() , 
-                                                     obj.getTipo().getId() });
+                                                     obj.getTipo().getId() , obj.getUnita() });
         } catch (DataAccessException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class ProdottoRepoImpl implements IProdottoRepo {
             jdbcUtil.update(queryUpdate,new Object[] { obj.getNomeProdotto(), 
                                                      obj.getDescrizione(),
                                                      obj.getImage(), 
-                                                     obj.getPrezzo() , obj.getId() });
+                                                     obj.getPrezzo() ,obj.getUnita() , obj.getId() });
         } catch (DataAccessException e) {
             e.printStackTrace();
         } catch (SQLException e) {
