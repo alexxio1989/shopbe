@@ -78,15 +78,24 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
     	 
     	 List<Dominio> listDominioNew = new ArrayList<Dominio>();
     	 
+    	 List<SubDominio> listSubDominioNew = new ArrayList<SubDominio>();
+    	 
     	 for (Dominio tipo : listDominio) {
     		if(!listDominioNew.stream().filter(t -> t.getId() == tipo.getId()).findFirst().isPresent()) {
     			listDominioNew.add(tipo);
     			
     		}
 		 }
+    	 
+    	 for (SubDominio subDominio : listSubDominio) {
+    		 if(!listSubDominioNew.stream().filter(t -> t.getId() == subDominio.getId()).findFirst().isPresent()) {
+    			 listSubDominioNew.add(subDominio);
+     			
+     		}
+		}
     	 for (Dominio tipo : listDominioNew) {
     		 if(listDominioNew.size() > 0) {
-    			 for (SubDominio sottoTipo : listSubDominio) {
+    			 for (SubDominio sottoTipo : listSubDominioNew) {
     				 if(sottoTipo.getIdPadre() == tipo.getId()) {
     					 for (Prodotto prodotto : listProdotto) {
     						 if(sottoTipo.getId() == prodotto.getTipo().getId()) {
