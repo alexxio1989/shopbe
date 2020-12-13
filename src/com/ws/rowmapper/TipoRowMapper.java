@@ -37,8 +37,19 @@ public class TipoRowMapper implements RowMapper<Dominio> {
         } else if (hasColumn(rs,"idtipo_utente")){
             dominio.setId(rs.getInt("idtipo_utente"));
         }
-        dominio.setCodice(rs.getString("codice_padre"));
-        dominio.setDescrizione(rs.getString("descrizione_padre"));
+        if(hasColumn(rs,"codice_padre")){
+        	dominio.setCodice(rs.getString("codice_padre"));
+        } else {
+        	dominio.setCodice(rs.getString("codice"));
+        }
+        if(hasColumn(rs,"descrizione_padre")){
+            dominio.setDescrizione(rs.getString("descrizione_padre"));
+
+        } else {
+            dominio.setDescrizione(rs.getString("descrizione"));
+
+        }
+        
         if(hasColumn(rs,"idtipo")){
         	
         	List<SubDominio> list = jdbcUtil.query(queryGetSottoTipi ,new Object[] {rs.getInt("idtipo")}, rm);
