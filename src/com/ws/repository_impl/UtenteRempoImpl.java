@@ -52,7 +52,7 @@ public class UtenteRempoImpl implements IUtenteRepo {
     	if(getUserByEmail(obj) == null) {
     		res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
     		Recapito recapito = recapitoRepo.save(obj.getRecapito());
-    		jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 2 , recapito.getId());
+    		jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 3 , recapito.getId());
     		
     	} else {
     		res = new UtenteResponse(HttpStatus.BAD_REQUEST, "EMAIL NON VALIDA");
