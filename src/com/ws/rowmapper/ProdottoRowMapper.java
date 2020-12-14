@@ -36,8 +36,22 @@ public class ProdottoRowMapper implements RowMapper<Prodotto> {
         prodotto.setImage(rs.getString("image"));
         prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
         prodotto.setUnita(rs.getString("unita"));
+        if(hasColumn(rs,"quantity")){
+        	prodotto.setQntRimanente(rs.getBigDecimal("quantity"));
+        }
         prodotto.setTipo(jdbcUtil.queryForObj(queryGet, new Object[] {rs.getInt("sotto_tipo_idsotto_tipo")} , trrm));
         return prodotto;
+    }
+    
+    public static boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
+        java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+        int columns = rsmd.getColumnCount();
+        for (int x = 1; x <= columns; x++) {
+            if (columnName.equals(rsmd.getColumnName(x))) {
+                return true;
+            }
+        }
+        return false;
     }
     
 }

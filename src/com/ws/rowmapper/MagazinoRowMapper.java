@@ -24,7 +24,7 @@ public class MagazinoRowMapper implements RowMapper<Magazino> {
         magazino.setIdNegozio(rs.getInt("negozio_idnegozio"));
         int int1 = rs.getInt("prodotto_idprodotto");
 		Prodotto prodotto = prodottoRepo.get(int1);
-        prodotto.setQntRimanente(rs.getInt("quantity"));
+        prodotto.setQntRimanente(rs.getBigDecimal("quantity"));
         magazino.setProdottoSelected(prodotto);
         return magazino;
     }

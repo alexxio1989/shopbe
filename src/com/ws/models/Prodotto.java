@@ -10,7 +10,7 @@ public class Prodotto {
     private BigDecimal prezzo;
     private SubDominio tipo = new SubDominio();
     private String image;
-    private int qntRimanente;
+    private BigDecimal qntRimanente;
     private String unita;
 
     public int getId() {
@@ -53,11 +53,11 @@ public class Prodotto {
         this.tipo = tipo;
     }
 
-    public int getQntRimanente() {
+    public BigDecimal getQntRimanente() {
         return qntRimanente;
     }
 
-    public void setQntRimanente(int qntRimanente) {
+    public void setQntRimanente(BigDecimal qntRimanente) {
         this.qntRimanente = qntRimanente;
     }
 
