@@ -1,4 +1,5 @@
 package com.ws.rowmapper;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -37,7 +38,12 @@ public class ProdottoRowMapper implements RowMapper<Prodotto> {
         prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
         prodotto.setUnita(rs.getString("unita"));
         if(hasColumn(rs,"quantity")){
-        	prodotto.setQntRimanente(rs.getBigDecimal("quantity"));
+        	BigDecimal qntRmnt = rs.getBigDecimal("quantity");
+        	if(qntRmnt == null) {
+        		prodotto.setQntRimanente(new BigDecimal(0));
+        	} else {
+        		prodotto.setQntRimanente(rs.getBigDecimal("quantity"));
+        	}
         }
         prodotto.setTipo(jdbcUtil.queryForObj(queryGet, new Object[] {rs.getInt("sotto_tipo_idsotto_tipo")} , trrm));
         return prodotto;
