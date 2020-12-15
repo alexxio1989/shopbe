@@ -1,11 +1,14 @@
 package com.ws.models;
 
+import java.util.List;
+
 public class Negozio {
 
     private int id;
     private String nome;
     private Magazino magazino = new Magazino();
     private Recapito recapito = new Recapito();
+    private List<GiornoLavorativo> giorniLavorativi; 
 
     public int getId() {
         return id;
@@ -38,5 +41,14 @@ public class Negozio {
     public void setRecapito(Recapito recapito) {
         this.recapito = recapito;
     }
+
+	public List<GiornoLavorativo> getGiorniLavorativi() {
+		return giorniLavorativi;
+	}
+
+	public void setGiorniLavorativi(List<GiornoLavorativo> giorniLavorativi) {
+		this.giorniLavorativi = giorniLavorativi;
+	}
+    
     
 }

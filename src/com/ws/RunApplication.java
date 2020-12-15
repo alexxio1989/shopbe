@@ -8,7 +8,6 @@ import org.springframework.context.annotation.PropertySources;
 @SpringBootApplication
 @PropertySources({
     @PropertySource(value = {"classpath:sql-negozio.properties"}, ignoreResourceNotFound = false),
-    @PropertySource(value = {"classpath:sql-ordine.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-prodotto.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-recapito.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-sotto-tipo.properties"}, ignoreResourceNotFound = false),
@@ -16,6 +15,7 @@ import org.springframework.context.annotation.PropertySources;
     @PropertySource(value = {"classpath:sql-magazino.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-utente.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-acquisto.properties"}, ignoreResourceNotFound = false),
+    @PropertySource(value = {"classpath:sql-giorni-lavorativi.properties"}, ignoreResourceNotFound = false)
 })
 public class RunApplication {
 	public static void main(String[] args) {

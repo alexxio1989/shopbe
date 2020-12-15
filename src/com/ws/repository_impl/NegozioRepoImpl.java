@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import com.ws.models.GiornoLavorativo;
 import com.ws.models.Negozio;
 import com.ws.models.Recapito;
 import com.ws.repository.INegozioRepo;
@@ -30,6 +31,9 @@ public class NegozioRepoImpl implements INegozioRepo {
 
     @Autowired
     private RecapitoRepoImpl recapitoRepo;
+    
+    @Autowired
+    private GiornoLavorativoRepoImpl giorniRepo;
 
     @Value("${negozio.save}")
     protected String querySave;
@@ -53,7 +57,9 @@ public class NegozioRepoImpl implements INegozioRepo {
         newRecapito = recapitoRepo.save(obj.getRecapito());
         
         if(newRecapito != null){
-            jdbcUtil.update(querySave, new Object[] { obj.getNome(), newRecapito.getId() });
+            int id = jdbcUtil.saveAndGetId( new Object[] { obj.getNome(), newRecapito.getId() } , querySave);
+            obj.getGiorniLavorativi().stream().forEach(g ->  g.setIdNegozio(id));
+            giorniRepo.save(obj.getGiorniLavorativi());
         }
 
         return getAll();
@@ -62,6 +68,9 @@ public class NegozioRepoImpl implements INegozioRepo {
     @Override
     public NegozioResponse update(Negozio obj) throws DataAccessException, SQLException {
         jdbcUtil.update(queryUpdate, new Object[] { obj.getNome() , obj.getId()});
+        obj.getGiorniLavorativi().stream().forEach(g ->  g.setIdNegozio(obj.getId()));
+        giorniRepo.update(obj.getGiorniLavorativi());
+
         return getAll();
     }
 
@@ -73,6 +82,7 @@ public class NegozioRepoImpl implements INegozioRepo {
     @Override
     public NegozioResponse delete(Negozio obj) throws DataAccessException, SQLException {
         jdbcUtil.update(queryDelete, new Object[] { obj.getId()});
+		giorniRepo.deleteAll(obj.getId() );
         return getAll();
     }
 
@@ -81,6 +91,9 @@ public class NegozioRepoImpl implements INegozioRepo {
 		NegozioResponse negozioResponse = new NegozioResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
         List<Negozio> list = jdbcUtil.query(queryGetAll, rm);
         negozioResponse.setList(list);
+        for (Negozio negozio : list) {
+        	negozio.setGiorniLavorativi(giorniRepo.getAll(negozio.getId()).getGiorniLavorativi());
+		}
         return negozioResponse;
 	}
     

@@ -5,7 +5,9 @@ com/ws/rowmapper/ProdottoRowMapper.class
 com/ws/response/TipoResponse.class
 com/ws/repository_impl/AcquistoRepoImpl.class
 com/ws/utils/JdbcUtil.class
+com/ws/rowmapper/GiornoLavorativoRowMapper.class
 com/ws/controller/NegozioController.class
+com/ws/response/GiornoLavorativoResponse.class
 com/ws/rowmapper/MagazinoRowMapper.class
 com/ws/utils/Utils.class
 com/ws/models/Recapito.class
@@ -13,13 +15,12 @@ com/ws/rowmapper/AcquistoRowMapper.class
 com/ws/repository/ITipoRepo.class
 com/ws/models/Dominio.class
 com/ws/models/Ordine.class
-com/ws/controller/OrdineController.class
 com/ws/repository/repoenums/Metodi$EnumMetodi.class
 com/ws/controller/ProdottoController.class
+com/ws/repository_impl/GiornoLavorativoRepoImpl.class
 com/ws/controller/UtenteController.class
 com/ws/rowmapper/OrdineRowMapper.class
 com/ws/controller/MagazinoController.class
-com/ws/repository/IOrdineRepo.class
 com/ws/repository_impl/TipoRepoImpl.class
 com/ws/response/enumresponse/ResponseStatus$EnumResponseStatus.class
 com/ws/rowmapper/TipoRowMapper.class
@@ -28,6 +29,7 @@ com/ws/models/Prodotto.class
 com/ws/rowmapper/UtenteRowMapper.class
 com/ws/repository/INegozioRepo.class
 com/ws/rowmapper/RecapitoRowMapper.class
+com/ws/repository/IGiornoLavorativoRepo.class
 com/ws/response/NegozioResponse.class
 com/ws/repository/core/IRepository.class
 com/ws/controller/TipoController.class
@@ -35,6 +37,7 @@ com/ws/RunApplication.class
 com/ws/response/UtenteResponse.class
 com/ws/controller/SottoTipoController.class
 com/ws/main/Main.class
+com/ws/controller/GiornoLavorativoController.class
 com/ws/repository_impl/ProdottoRepoImpl.class
 com/ws/repository/repoenums/Metodi.class
 com/ws/models/Utente.class
@@ -49,13 +52,13 @@ com/ws/models/Negozio.class
 com/ws/repository_impl/SottoTipoRepoImpl.class
 com/ws/models/Acquisto.class
 com/ws/response/OrdineResponse.class
+com/ws/models/GiornoLavorativo.class
 com/ws/response/core/ResponseCore.class
 com/ws/repository/ISottoTipoRepo.class
 com/ws/repository/IProdottoRepo.class
 com/ws/models/Magazino.class
 com/ws/repository_impl/RecapitoRepoImpl.class
 com/ws/rowmapper/TipoRowMapperLite.class
-com/ws/repository_impl/OrdineRepoImpl.class
 com/ws/rowmapper/SottoTipoRowMapper.class
 com/ws/rowmapper/SottoTipoRowMapperLite.class
 com/ws/repository/IUtenteRepo.class

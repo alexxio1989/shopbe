@@ -41,6 +41,9 @@ public class UtenteRempoImpl implements IUtenteRepo {
 
     @Value("${utente.login}")
     protected String queryLogin;
+    
+    @Value("${get.utente.by.email}")
+    protected String queryGetUtenteByEmail;
 
     @Autowired
     private IRecapitoRepo recapitoRepo;
@@ -49,7 +52,7 @@ public class UtenteRempoImpl implements IUtenteRepo {
     @Override
     public UtenteResponse save(Utente obj) throws DataAccessException, SQLException {
     	UtenteResponse res = null;
-    	if(getUserByEmail(obj) == null) {
+    	if(getUtenteByEmail(obj.getEmail()) == 0) {
     		res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
     		Recapito recapito = recapitoRepo.save(obj.getRecapito());
     		jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 3 , recapito.getId());
@@ -98,6 +101,10 @@ public class UtenteRempoImpl implements IUtenteRepo {
 	public UtenteResponse getAll() throws DataAccessException, SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public Integer getUtenteByEmail(String email) throws SQLException {
+		return jdbcUtil.queryForInteger(queryGetUtenteByEmail, new Object[]{email});
 	}
     
 }
