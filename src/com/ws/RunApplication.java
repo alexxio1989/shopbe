@@ -15,7 +15,8 @@ import org.springframework.context.annotation.PropertySources;
     @PropertySource(value = {"classpath:sql-magazino.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-utente.properties"}, ignoreResourceNotFound = false),
     @PropertySource(value = {"classpath:sql-acquisto.properties"}, ignoreResourceNotFound = false),
-    @PropertySource(value = {"classpath:sql-giorni-lavorativi.properties"}, ignoreResourceNotFound = false)
+    @PropertySource(value = {"classpath:sql-giorni-lavorativi.properties"}, ignoreResourceNotFound = false),
+    @PropertySource(value = {"classpath:sql-mod-pagamento.properties"}, ignoreResourceNotFound = false)
 })
 public class RunApplication {
 	public static void main(String[] args) {

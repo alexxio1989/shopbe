@@ -1,6 +1,8 @@
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/ModPagamentoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/SottoTipoRowMapperLite.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/ProdottoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IMagazinoRepo.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/ModalitaPagamentoRepoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/enumresponse/ResponseStatus.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/TipoRowMapperLite.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IRecapitoRepo.java
@@ -13,6 +15,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/GiornoLavorativoResponse.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/utils/JdbcUtil.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IAcquistoRepo.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/ModalitaPagamento.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/GiornoLavorativoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Recapito.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/core/IRepository.java
@@ -22,6 +25,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/utils/Utils.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/RecapitoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/GiornoLavorativo.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/controller/ModPagamentoController.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/ProdottoRepoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/UtenteResponse.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Negozio.java
@@ -48,6 +52,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/INegozioRepo.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/NegozioRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/AcquistoRowMapper.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/ModPagamentoResponse.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/controller/UtenteController.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Utente.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/MagazinoRowMapper.java
@@ -56,6 +61,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Magazino.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/UtenteRempoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/OrdineRowMapper.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IModalitaPagamentoRepo.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/controller/SottoTipoController.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/NegozioResponse.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/controller/ProdottoController.java

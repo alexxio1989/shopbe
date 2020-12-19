@@ -9,13 +9,16 @@ com/ws/rowmapper/GiornoLavorativoRowMapper.class
 com/ws/controller/NegozioController.class
 com/ws/response/GiornoLavorativoResponse.class
 com/ws/rowmapper/MagazinoRowMapper.class
+com/ws/models/ModalitaPagamento.class
 com/ws/utils/Utils.class
 com/ws/models/Recapito.class
 com/ws/rowmapper/AcquistoRowMapper.class
 com/ws/repository/ITipoRepo.class
 com/ws/models/Dominio.class
 com/ws/models/Ordine.class
+com/ws/repository_impl/ModalitaPagamentoRepoImpl.class
 com/ws/repository/repoenums/Metodi$EnumMetodi.class
+com/ws/response/ModPagamentoResponse.class
 com/ws/controller/ProdottoController.class
 com/ws/repository_impl/GiornoLavorativoRepoImpl.class
 com/ws/controller/UtenteController.class
@@ -31,6 +34,7 @@ com/ws/repository/INegozioRepo.class
 com/ws/rowmapper/RecapitoRowMapper.class
 com/ws/repository/IGiornoLavorativoRepo.class
 com/ws/response/NegozioResponse.class
+com/ws/controller/ModPagamentoController.class
 com/ws/repository/core/IRepository.class
 com/ws/controller/TipoController.class
 com/ws/RunApplication.class
@@ -49,6 +53,7 @@ com/ws/repository_impl/MagazinoRepoImpl.class
 com/ws/repository/IRecapitoRepo.class
 com/ws/repository/IAcquistoRepo.class
 com/ws/models/Negozio.class
+com/ws/repository/IModalitaPagamentoRepo.class
 com/ws/repository_impl/SottoTipoRepoImpl.class
 com/ws/models/Acquisto.class
 com/ws/response/OrdineResponse.class
@@ -62,4 +67,5 @@ com/ws/rowmapper/TipoRowMapperLite.class
 com/ws/rowmapper/SottoTipoRowMapper.class
 com/ws/rowmapper/SottoTipoRowMapperLite.class
 com/ws/repository/IUtenteRepo.class
+com/ws/rowmapper/ModPagamentoRowMapper.class
 com/ws/response/enumresponse/ResponseStatus.class

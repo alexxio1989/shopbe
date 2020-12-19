@@ -11,6 +11,11 @@ public class Acquisto {
     private String codiceAquisto;
     private Date dataAcquisto;
     private BigDecimal totale;
+    private ModalitaPagamento modalitaPagamento;
+    private Date dataRitiro;
+    private Negozio negozioRitiro;
+    private Date dataCosegnaPrevista;
+    private String stripeToken;
 
     public int getId() {
         return id;
@@ -51,5 +56,47 @@ public class Acquisto {
     public void setTotale(BigDecimal totale) {
         this.totale = totale;
     }
+
+	public ModalitaPagamento getModalitaPagamento() {
+		return modalitaPagamento;
+	}
+
+	public void setModalitaPagamento(ModalitaPagamento modalitaPagamento) {
+		this.modalitaPagamento = modalitaPagamento;
+	}
+
+	public Date getDataRitiro() {
+		return dataRitiro;
+	}
+
+	public void setDataRitiro(Date dataRitiro) {
+		this.dataRitiro = dataRitiro;
+	}
+
+	public Negozio getNegozioRitiro() {
+		return negozioRitiro;
+	}
+
+	public void setNegozioRitiro(Negozio negozioRitiro) {
+		this.negozioRitiro = negozioRitiro;
+	}
+
+	public Date getDataCosegnaPrevista() {
+		return dataCosegnaPrevista;
+	}
+
+	public void setDataCosegnaPrevista(Date dataCosegnaPrevista) {
+		this.dataCosegnaPrevista = dataCosegnaPrevista;
+	}
+
+	public String getStripeToken() {
+		return stripeToken;
+	}
+
+	public void setStripeToken(String stripeToken) {
+		this.stripeToken = stripeToken;
+	}
+    
+    
     
 }
