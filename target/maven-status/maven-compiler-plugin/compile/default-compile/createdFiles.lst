@@ -2,6 +2,7 @@ com/ws/controller/core/IController.class
 com/ws/repository_impl/NegozioRepoImpl.class
 com/ws/rowmapper/NegozioRowMapper.class
 com/ws/rowmapper/ProdottoRowMapper.class
+com/ws/rowmapper/NegozioLiteRowMapper.class
 com/ws/response/TipoResponse.class
 com/ws/repository_impl/AcquistoRepoImpl.class
 com/ws/utils/JdbcUtil.class
@@ -13,6 +14,7 @@ com/ws/models/ModalitaPagamento.class
 com/ws/utils/Utils.class
 com/ws/models/Recapito.class
 com/ws/rowmapper/AcquistoRowMapper.class
+com/ws/controller/AcquistoController.class
 com/ws/repository/ITipoRepo.class
 com/ws/models/Dominio.class
 com/ws/models/Ordine.class
@@ -35,10 +37,12 @@ com/ws/rowmapper/RecapitoRowMapper.class
 com/ws/repository/IGiornoLavorativoRepo.class
 com/ws/response/NegozioResponse.class
 com/ws/controller/ModPagamentoController.class
+com/ws/enums/StatusAcquisto$EnumStatusAcquisto.class
 com/ws/repository/core/IRepository.class
 com/ws/controller/TipoController.class
 com/ws/RunApplication.class
 com/ws/response/UtenteResponse.class
+com/ws/enums/StatusAcquisto.class
 com/ws/controller/SottoTipoController.class
 com/ws/main/Main.class
 com/ws/controller/GiornoLavorativoController.class

@@ -16,6 +16,8 @@ public class Acquisto {
     private Negozio negozioRitiro;
     private Date dataCosegnaPrevista;
     private String stripeToken;
+    private int idUtente;
+    private String status;
 
     public int getId() {
         return id;
@@ -96,6 +98,24 @@ public class Acquisto {
 	public void setStripeToken(String stripeToken) {
 		this.stripeToken = stripeToken;
 	}
+
+	public int getIdUtente() {
+		return idUtente;
+	}
+
+	public void setIdUtente(int idUtente) {
+		this.idUtente = idUtente;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
     
     
     
