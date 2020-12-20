@@ -1,5 +1,6 @@
 package com.ws.enums;
 
+import com.ws.models.Status;
 
 public class StatusAcquisto {
 	
@@ -32,6 +33,19 @@ public class StatusAcquisto {
 		}
 		public void setDescrizione(String descrizione) {
 			this.descrizione = descrizione;
+		}
+		
+		public static Status getStatus(String code) {
+			for (EnumStatusAcquisto enumStatus : EnumStatusAcquisto.values()) {
+				if(code.equalsIgnoreCase(enumStatus.getCode())) {
+					Status status = new Status();
+					status.setCodice(enumStatus.getCode());
+					status.setDescrizione(enumStatus.getDescrizione());
+					return status;
+				}
+				
+			}
+			return null;
 		}
 		
 		

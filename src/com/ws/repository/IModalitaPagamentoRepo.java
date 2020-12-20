@@ -14,4 +14,5 @@ public interface IModalitaPagamentoRepo extends IRepository<ModalitaPagamento, M
 	public ModPagamentoResponse update(List<ModalitaPagamento> obj) throws DataAccessException, SQLException;
 	public ModPagamentoResponse deleteAll(int id) throws DataAccessException, SQLException;
 	public ModPagamentoResponse getAll(int id) throws DataAccessException, SQLException ;
+	public ModalitaPagamento get(int id) throws DataAccessException, SQLException;
 }

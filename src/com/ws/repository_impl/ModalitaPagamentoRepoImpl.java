@@ -36,6 +36,9 @@ public class ModalitaPagamentoRepoImpl implements IModalitaPagamentoRepo{
     @Value("${mod.pagamento.get.all}")
     protected String queryGetAll;
     
+    @Value("${mod.pagamento.get}")
+    protected String queryGet;
+    
     @Autowired
     public JdbcUtil jdbcUtil;
 
@@ -95,6 +98,11 @@ public class ModalitaPagamentoRepoImpl implements IModalitaPagamentoRepo{
 	public ModPagamentoResponse deleteAll(int id) throws DataAccessException, SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ModalitaPagamento get(int id) throws DataAccessException, SQLException {
+		return jdbcUtil.queryForObj(queryGet, new Object[] {id }, rm);
 	}
 
 }

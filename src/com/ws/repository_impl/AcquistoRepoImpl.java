@@ -2,7 +2,11 @@ package com.ws.repository_impl;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +17,18 @@ import org.springframework.stereotype.Repository;
 
 import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Acquisto;
+import com.ws.models.Dominio;
 import com.ws.models.Prodotto;
 import com.ws.repository.IAcquistoRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.AcquistoResponse;
 import com.ws.response.GiornoLavorativoResponse;
 import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
+import com.ws.rowmapper.AcquistoRowMapper;
 import com.ws.rowmapper.GiornoLavorativoRowMapper;
+import com.ws.rowmapper.ModPagamentoRowMapper;
+import com.ws.rowmapper.ProdottoRowMapper;
+import com.ws.rowmapper.UtenteRowMapper;
 import com.ws.utils.JdbcUtil;
 
 @Repository
@@ -37,8 +46,15 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     @Value("${acquisto.get.all}")
     protected String queryGet;
     
+    @Value("${acquisto.get.all.utente}")
+    protected String queryGetUtente;
+    
     @Autowired
-    public JdbcUtil jdbcUtil;
+    protected JdbcUtil jdbcUtil;
+    
+    @Autowired
+    protected AcquistoRowMapper rm;
+  
     
     
     public String generateCode() {
@@ -64,12 +80,12 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     public AcquistoResponse save(Acquisto obj) throws DataAccessException, SQLException {
     	
     	
+    	String codice_acquisto = generateCode();
     	for (Prodotto prodotto : obj.getProdotti()) {
     		
     		int prodotto_idprodotto = prodotto.getId();
-    		int utente_idutente = obj.getIdUtente();
+    		int utente_idutente = obj.getUtente().getId();
     		BigDecimal totale = obj.getTotale();
-    		String codice_acquisto = generateCode();
     		int modalita_pagamento_idmodalita_pagamento = obj.getModalitaPagamento().getId();
     		Date data_acquisto = new Date();
     		Date data_ritiro = obj.getDataRitiro();
@@ -104,9 +120,64 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 
 	@Override
 	public AcquistoResponse getAll() throws DataAccessException, SQLException {
+
 		AcquistoResponse acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
+		
+        List<Acquisto> listAquisti = jdbcUtil.query(queryGet, rm);
+		
+		List<Acquisto> newList = getListAcquisti(listAquisti);
+		acquistoResponse.setList(newList);
 
 		return acquistoResponse;
+	}
+
+
+
+	@Override
+	public List<Acquisto> getAllUtente(int id) throws DataAccessException, SQLException {
+		
+		List<Acquisto> listAquisti = jdbcUtil.query(queryGetUtente, new Object[]{id} , rm);
+		
+		List<Acquisto> newList = getListAcquisti(listAquisti);
+		
+
+		return newList;
+	}
+
+
+
+	private List<Acquisto> getListAcquisti(List<Acquisto> listAquisti) {
+		List<Acquisto> newList = new ArrayList<Acquisto>();
+		
+		
+		Map<String , Acquisto> mapCodeAcquisto = new HashMap<String, Acquisto>();
+		
+		for (Acquisto acquisto : listAquisti) {
+			
+			if(mapCodeAcquisto.size() > 0) {
+				for (String code : mapCodeAcquisto.keySet()) {
+					if(code.equalsIgnoreCase(acquisto.getCodiceAquisto())) {
+						Acquisto acquistoRetrieved = mapCodeAcquisto.get(code);
+						if(acquistoRetrieved.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
+							acquistoRetrieved.getProdotti().add(acquisto.getProdotto());
+							
+						}
+					}
+				}
+				
+			} else {
+				if(acquisto.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
+					acquisto.getProdotti().add(acquisto.getProdotto());
+				}
+				mapCodeAcquisto.put(acquisto.getCodiceAquisto(), acquisto);
+			}
+			
+		}
+		
+		for (Acquisto acquisto : mapCodeAcquisto.values()) {
+			newList.add(acquisto);
+		}
+		return newList;
 	}
     
 }

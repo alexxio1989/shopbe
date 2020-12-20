@@ -49,8 +49,8 @@ public class AcquistoController implements IController<Acquisto, AcquistoRespons
 
 	@Override
 	public ResponseEntity<AcquistoResponse> getAll() throws DataAccessException, SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		AcquistoResponse res = repo.getAll();
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 }

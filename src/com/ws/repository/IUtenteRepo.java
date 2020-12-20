@@ -11,5 +11,7 @@ import com.ws.response.UtenteResponse;
 public interface IUtenteRepo extends IRepository<Utente,UtenteResponse>{
 
     public UtenteResponse login(Utente obj) throws DataAccessException, SQLException ;
+    
+    public Utente get(int id) throws DataAccessException, SQLException ;
 
 }

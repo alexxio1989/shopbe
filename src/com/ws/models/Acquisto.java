@@ -1,13 +1,15 @@
 package com.ws.models;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Acquisto {
 
     private int id;
-    private List<Prodotto> prodotti;
+    private List<Prodotto> prodotti = new ArrayList<Prodotto>();
+    private Prodotto prodotto;
     private String codiceAquisto;
     private Date dataAcquisto;
     private BigDecimal totale;
@@ -16,8 +18,8 @@ public class Acquisto {
     private Negozio negozioRitiro;
     private Date dataCosegnaPrevista;
     private String stripeToken;
-    private int idUtente;
-    private String status;
+    private Utente utente;
+    private Status status;
 
     public int getId() {
         return id;
@@ -99,20 +101,30 @@ public class Acquisto {
 		this.stripeToken = stripeToken;
 	}
 
-	public int getIdUtente() {
-		return idUtente;
-	}
+	
 
-	public void setIdUtente(int idUtente) {
-		this.idUtente = idUtente;
-	}
-
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Utente getUtente() {
+		return utente;
+	}
+
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
+
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
+
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
 	}
 	
 	

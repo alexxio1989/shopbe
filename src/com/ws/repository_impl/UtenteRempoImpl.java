@@ -106,5 +106,10 @@ public class UtenteRempoImpl implements IUtenteRepo {
 	public Integer getUtenteByEmail(String email) throws SQLException {
 		return jdbcUtil.queryForInteger(queryGetUtenteByEmail, new Object[]{email});
 	}
+
+	@Override
+	public Utente get(int id) throws DataAccessException, SQLException {
+		return jdbcUtil.queryForObj(queryGet, new Object[] {id}, rm);
+	}
     
 }

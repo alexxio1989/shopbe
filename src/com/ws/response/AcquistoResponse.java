@@ -1,7 +1,10 @@
 package com.ws.response;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
+import com.ws.models.Acquisto;
 import com.ws.models.Negozio;
 import com.ws.models.Utente;
 import com.ws.response.core.ResponseCore;
@@ -13,23 +16,16 @@ public class AcquistoResponse extends ResponseCore {
 		super.setStatus(status);
 	}
 
-    private Negozio negozio;
-    private Utente utente;
+    private List<Acquisto> list;
 
-    public Negozio getNegozio() {
-        return negozio;
-    }
+	public List<Acquisto> getList() {
+		return list;
+	}
 
-    public void setNegozio(Negozio negozio) {
-        this.negozio = negozio;
-    }
-
-    public Utente getUtente() {
-        return utente;
-    }
-
-    public void setUtente(Utente utente) {
-        this.utente = utente;
-    }
+	public void setList(List<Acquisto> list) {
+		this.list = list;
+	}
+    
+    
     
 }

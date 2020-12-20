@@ -16,6 +16,7 @@ import com.ws.repository.INegozioRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.NegozioResponse;
 import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
+import com.ws.rowmapper.NegozioLiteRowMapper;
 import com.ws.rowmapper.NegozioRowMapper;
 import com.ws.utils.JdbcUtil;
 
@@ -28,6 +29,9 @@ public class NegozioRepoImpl implements INegozioRepo {
 
     @Autowired
     private NegozioRowMapper rm;
+    
+    @Autowired
+    private NegozioLiteRowMapper rml;
 
     @Autowired
     private RecapitoRepoImpl recapitoRepo;
@@ -95,6 +99,12 @@ public class NegozioRepoImpl implements INegozioRepo {
         	negozio.setGiorniLavorativi(giorniRepo.getAll(negozio.getId()).getGiorniLavorativi());
 		}
         return negozioResponse;
+	}
+
+	@Override
+	public Negozio get(int id) throws DataAccessException, SQLException {
+		jdbcUtil.queryForObj(queryGet, new Object[] {id}, rml);
+		return null;
 	}
     
 }

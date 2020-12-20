@@ -61,6 +61,7 @@ com/ws/repository/IModalitaPagamentoRepo.class
 com/ws/repository_impl/SottoTipoRepoImpl.class
 com/ws/models/Acquisto.class
 com/ws/response/OrdineResponse.class
+com/ws/models/Status.class
 com/ws/models/GiornoLavorativo.class
 com/ws/response/core/ResponseCore.class
 com/ws/repository/ISottoTipoRepo.class
