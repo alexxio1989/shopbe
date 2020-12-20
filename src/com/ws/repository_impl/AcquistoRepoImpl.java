@@ -5,9 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,9 +103,9 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     }
 
     @Override
-    public AcquistoResponse update(Acquisto obj) {
-        // TODO Auto-generated method stub
-        return null;
+    public AcquistoResponse update(Acquisto obj) throws DataAccessException, SQLException {
+    	jdbcUtil.update(querySave, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
+        return getAll();
     }
 
     @Override
@@ -150,20 +152,23 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 		List<Acquisto> newList = new ArrayList<Acquisto>();
 		
 		
-		Map<String , Acquisto> mapCodeAcquisto = new HashMap<String, Acquisto>();
+		Map<String , Acquisto> mapCodeAcquisto = new ConcurrentHashMap<String, Acquisto>();
 		
 		for (Acquisto acquisto : listAquisti) {
 			
 			if(mapCodeAcquisto.size() > 0) {
-				for (String code : mapCodeAcquisto.keySet()) {
-					if(code.equalsIgnoreCase(acquisto.getCodiceAquisto())) {
-						Acquisto acquistoRetrieved = mapCodeAcquisto.get(code);
-						if(acquistoRetrieved.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
-							acquistoRetrieved.getProdotti().add(acquisto.getProdotto());
-							
-						}
+				if(mapCodeAcquisto.keySet().stream().anyMatch(c -> c.equalsIgnoreCase(acquisto.getCodiceAquisto()))) {
+					Acquisto acquistoRetrieved = mapCodeAcquisto.get(acquisto.getCodiceAquisto());
+					if(acquistoRetrieved.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
+						acquistoRetrieved.getProdotti().add(acquisto.getProdotto());
 					}
+				} else {
+					if(acquisto.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
+						acquisto.getProdotti().add(acquisto.getProdotto());
+					}
+					mapCodeAcquisto.put(acquisto.getCodiceAquisto(), acquisto);
 				}
+
 				
 			} else {
 				if(acquisto.getProdotti().stream().filter(p -> p.getId() == acquisto.getProdotto().getId()).count() == 0) {
