@@ -135,6 +135,8 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 		
 		List<Acquisto> newList = getListAcquisti(listAquisti);
 		acquistoResponse.setList(newList);
+		
+		acquistoResponse.setListStatus(EnumStatusAcquisto.getAll());
 
 		return acquistoResponse;
 	}

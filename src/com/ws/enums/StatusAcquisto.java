@@ -1,5 +1,8 @@
 package com.ws.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ws.models.Status;
 
 public class StatusAcquisto {
@@ -46,6 +49,19 @@ public class StatusAcquisto {
 				
 			}
 			return null;
+		}
+		
+		public static List<Status> getAll(){
+			List<Status> list = new ArrayList<Status>();
+			for (EnumStatusAcquisto enumStatus : EnumStatusAcquisto.values()) {
+				
+					Status status = new Status();
+					status.setCodice(enumStatus.getCode());
+					status.setDescrizione(enumStatus.getDescrizione());
+					list.add(status);
+				
+			}
+			return list;
 		}
 		
 		
