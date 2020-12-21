@@ -156,6 +156,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 		Map<String , Acquisto> mapCodeAcquisto = new ConcurrentHashMap<String, Acquisto>();
 		
 		for (Acquisto acquisto : listAquisti) {
+			acquisto.getProdotto().setQnt(acquisto.getQnt());
 			
 			if(mapCodeAcquisto.size() > 0) {
 				if(mapCodeAcquisto.keySet().stream().anyMatch(c -> c.equalsIgnoreCase(acquisto.getCodiceAquisto()))) {
