@@ -110,7 +110,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 
     @Override
     public AcquistoResponse update(Acquisto obj) throws DataAccessException, SQLException {
-    	jdbcUtil.update(querySave, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
+    	jdbcUtil.update(queryUpdate, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
         return getAll();
     }
 

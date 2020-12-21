@@ -35,8 +35,8 @@ public class AcquistoController implements IController<Acquisto, AcquistoRespons
 
 	@Override
 	public ResponseEntity<AcquistoResponse> update(@RequestBody Acquisto obj) throws DataAccessException, SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		AcquistoResponse res = repo.update(obj);
+		return Utils.getResponseEntity(res, res.getHttpStatus());
 	}
 
 	@Override
