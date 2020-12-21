@@ -93,7 +93,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     		Date data_ritiro = obj.getDataRitiro();
     		int idNegozio_ritiro =  obj.getNegozioRitiro() != null ? obj.getNegozioRitiro().getId() : 0;
     		Date data_consegna_prevista = null;
-    		BigDecimal qnt = obj.getQnt();
+    		BigDecimal qnt = prodotto.getQnt();
     		
     		jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
 		}
