@@ -17,6 +17,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import com.ws.email.SendEmail;
 import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Acquisto;
 import com.ws.models.Dominio;
@@ -57,6 +58,8 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     @Autowired
     protected AcquistoRowMapper rm;
   
+    @Autowired
+    protected SendEmail email;
     
     
     public String generateCode() {
@@ -83,6 +86,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     	
     	
     	String codice_acquisto = generateCode();
+    	obj.setCodiceAquisto(codice_acquisto);
     	for (Prodotto prodotto : obj.getProdotti()) {
     		
     		int prodotto_idprodotto = prodotto.getId();
@@ -97,7 +101,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     		
     		jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
 		}
-       // INSERT INTO acquisto (
+    	email.sendEmailAquisto(obj);
 
 
         return getAll();
