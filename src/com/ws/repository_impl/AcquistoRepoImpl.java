@@ -87,6 +87,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     	
     	String codice_acquisto = generateCode();
     	obj.setCodiceAquisto(codice_acquisto);
+    	obj.setStatus(EnumStatusAcquisto.getStatus("DC"));
     	for (Prodotto prodotto : obj.getProdotti()) {
     		
     		int prodotto_idprodotto = prodotto.getId();

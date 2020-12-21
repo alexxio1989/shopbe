@@ -71,7 +71,7 @@ public class SendEmail {
 		try {
 			String html = "";
 			html = HtmlUtils.getHtmlOwnerAcquisto(acquisto, false);
-			String emailTo = "alessiopinna.elis@@gmail.com";
+			String emailTo = "alessiopinna.elis@gmail.com";
 			send(session, html, emailTo , "Notifica di acquisto");
 		} catch (Exception e) {
 			e.printStackTrace();

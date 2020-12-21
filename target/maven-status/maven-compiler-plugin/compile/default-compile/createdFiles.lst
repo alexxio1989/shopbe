@@ -11,6 +11,7 @@ com/ws/controller/NegozioController.class
 com/ws/response/GiornoLavorativoResponse.class
 com/ws/rowmapper/MagazinoRowMapper.class
 com/ws/models/ModalitaPagamento.class
+com/ws/email/SendEmail.class
 com/ws/utils/Utils.class
 com/ws/models/Recapito.class
 com/ws/rowmapper/AcquistoRowMapper.class
@@ -42,7 +43,9 @@ com/ws/repository/core/IRepository.class
 com/ws/controller/TipoController.class
 com/ws/RunApplication.class
 com/ws/response/UtenteResponse.class
+com/ws/email/SendEmail$1.class
 com/ws/enums/StatusAcquisto.class
+com/ws/email/HtmlUtils.class
 com/ws/controller/SottoTipoController.class
 com/ws/main/Main.class
 com/ws/controller/GiornoLavorativoController.class

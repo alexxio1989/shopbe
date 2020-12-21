@@ -14,12 +14,12 @@ public class HtmlUtils {
 
 	public static String getHtmlAquirenteAcquisto(Acquisto acquisto) {
 
-		String template = "src/main/resources/rin-acquirente.html";
+		String template = "src/main/resources/email-acquirente-acquisto.html";
 		String content = bufferHtml(template);
 
 		Map<String, String> values = new HashMap<>();
 		values.put("0", acquisto.getUtente().getNome() + " " + acquisto.getUtente().getCognome());
-		values.put("1", acquisto.getCodiceAquisto());
+		values.put("1", acquisto.getCodiceAquisto().toUpperCase());
 		values.put("2", acquisto.getStatus().getDescrizione());
 		values.put("3", String.valueOf(acquisto.getTotale()));
 
@@ -31,13 +31,13 @@ public class HtmlUtils {
 
 	public static String getHtmlOwnerAcquisto(Acquisto acquisto , boolean isCristian) {
 
-		String template = "src/main/resources/rin-owner.html";
+		String template = "src/main/resources/email-owner-acquisto.html";
 		String content = bufferHtml(template);
 
 		Map<String, String> values = new HashMap<>();
 		values.put("0", isCristian ? "Cristian" : "Alessio");
 		values.put("1", acquisto.getUtente().getNome() + " " + acquisto.getUtente().getCognome());
-		values.put("2", acquisto.getCodiceAquisto());
+		values.put("2", acquisto.getCodiceAquisto().toUpperCase());
 		values.put("3", acquisto.getModalitaPagamento().getDescrizione());
 		values.put("4", String.valueOf(acquisto.getTotale()));
 

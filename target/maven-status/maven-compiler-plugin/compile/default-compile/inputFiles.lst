@@ -12,11 +12,13 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/repoenums/Metodi.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/RecapitoRepoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/TipoRowMapper.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/email/HtmlUtils.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/response/GiornoLavorativoResponse.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/utils/JdbcUtil.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/IAcquistoRepo.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/ModalitaPagamento.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/GiornoLavorativoRowMapper.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/email/SendEmail.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Recapito.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository/core/IRepository.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Acquisto.java
