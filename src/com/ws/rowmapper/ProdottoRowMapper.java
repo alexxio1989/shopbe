@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.ws.models.Prodotto;
-import com.ws.models.SubDominio;
-import com.ws.repository_impl.SottoTipoRepoImpl;
 import com.ws.utils.JdbcUtil;
 
 @Component
@@ -37,6 +35,7 @@ public class ProdottoRowMapper implements RowMapper<Prodotto> {
         prodotto.setImage(rs.getString("image"));
         prodotto.setPrezzo(rs.getBigDecimal("prezzo"));
         prodotto.setUnita(rs.getString("unita"));
+        prodotto.setStep(rs.getBigDecimal("step"));
         if(hasColumn(rs,"quantity")){
         	BigDecimal qntRmnt = rs.getBigDecimal("quantity");
         	if(qntRmnt == null) {

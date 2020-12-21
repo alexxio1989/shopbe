@@ -20,6 +20,7 @@ public class Acquisto {
     private String stripeToken;
     private Utente utente;
     private Status status;
+    private BigDecimal qnt;
 
     public int getId() {
         return id;
@@ -126,9 +127,13 @@ public class Acquisto {
 	public void setProdotto(Prodotto prodotto) {
 		this.prodotto = prodotto;
 	}
-	
-	
-    
-    
+
+	public BigDecimal getQnt() {
+		return qnt;
+	}
+
+	public void setQnt(BigDecimal qnt) {
+		this.qnt = qnt;
+	}
     
 }

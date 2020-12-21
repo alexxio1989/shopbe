@@ -49,6 +49,7 @@ public class AcquistoRowMapper implements RowMapper<Acquisto> {
         acquisto.setModalitaPagamento(modalitaPagamentoRepoImpl.get(rs.getInt("modalita_pagamento_idmodalita_pagamento")));
         acquisto.setDataAcquisto(rs.getDate("data_acquisto"));
         acquisto.setDataRitiro(rs.getDate("data_ritiro"));
+        acquisto.setQnt(rs.getBigDecimal("qnt"));
         if(rs.getInt("idNegozio_ritiro") > 0) {
         	acquisto.setNegozioRitiro(negozioRepoImpl.get(rs.getInt("idNegozio_ritiro")));
         }

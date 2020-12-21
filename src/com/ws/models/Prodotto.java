@@ -12,6 +12,8 @@ public class Prodotto {
     private String image;
     private BigDecimal qntRimanente;
     private String unita;
+    private BigDecimal qnt;
+    private BigDecimal step;
 
     public int getId() {
         return id;
@@ -75,6 +77,22 @@ public class Prodotto {
 
 	public void setUnita(String unita) {
 		this.unita = unita;
+	}
+
+	public BigDecimal getQnt() {
+		return qnt;
+	}
+
+	public void setQnt(BigDecimal qnt) {
+		this.qnt = qnt;
+	}
+
+	public BigDecimal getStep() {
+		return step;
+	}
+
+	public void setStep(BigDecimal step) {
+		this.step = step;
 	}
 	
 	
