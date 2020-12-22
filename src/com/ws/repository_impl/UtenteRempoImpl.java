@@ -50,12 +50,18 @@ public class UtenteRempoImpl implements IUtenteRepo {
 
 
     @Override
-    public UtenteResponse save(Utente obj) throws DataAccessException, SQLException {
+    public UtenteResponse save(Utente obj) {
     	UtenteResponse res = null;
     	if(getUtenteByEmail(obj.getEmail()) == 0) {
     		res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
     		Recapito recapito = recapitoRepo.save(obj.getRecapito());
-    		jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 3 , recapito.getId());
+    		try {
+				jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 3 , recapito.getId());
+				res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+			} catch (DataAccessException | SQLException e) {
+				res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+				e.printStackTrace();
+			}
     		
     	} else {
     		res = new UtenteResponse(HttpStatus.BAD_REQUEST, "EMAIL NON VALIDA");
@@ -64,31 +70,61 @@ public class UtenteRempoImpl implements IUtenteRepo {
     }
 
     @Override
-    public UtenteResponse update(Utente obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryUpdate,new Object[] { obj.getId() });
-        return get(obj);
+    public UtenteResponse update(Utente obj) {
+    	 UtenteResponse res = null;
+        try {
+			jdbcUtil.update(queryUpdate,new Object[] { obj.getId() });
+			res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+		} catch (DataAccessException | SQLException e) {
+			res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE_ERROR));
+			e.printStackTrace();
+		}
+        return get(obj,res);
     }
 
     @Override
-    public UtenteResponse get(Utente obj) throws DataAccessException, SQLException {
+    public UtenteResponse get(Utente obj) {
         UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-        Utente utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getId()}, rm);
-        res.setUtente(utente);
+        return get(obj, res);
+    }
+
+	private UtenteResponse get(Utente obj, UtenteResponse res) {
+		Utente utente;
+		try {
+			utente = jdbcUtil.queryForObj(queryLogin, new Object[] {obj.getId()}, rm);
+			res.setUtente(utente);
+		} catch (DataAccessException | SQLException e) {
+			res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			e.printStackTrace();
+		}
+        return res;
+	}
+
+    @Override
+    public UtenteResponse delete(Utente obj) {
+    	UtenteResponse res = null;
+        try {
+			jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
+			res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.DELETE));
+		} catch (DataAccessException | SQLException e) {
+			res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.DELETE_ERROR));
+			e.printStackTrace();
+		}
         return res;
     }
 
     @Override
-    public UtenteResponse delete(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.DELETE));
-        jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
-        return res;
-    }
-
-    @Override
-    public UtenteResponse login(Utente obj) throws DataAccessException, SQLException {
-        UtenteResponse res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.LOGIN));
-        Utente utente = getUserByEmail(obj);
-        res.setUtente(utente);
+    public UtenteResponse login(Utente obj) {
+    	UtenteResponse res = null;
+        Utente utente;
+		try {
+			utente = getUserByEmail(obj);
+			res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.LOGIN));
+			res.setUtente(utente);
+		} catch (SQLException e) {
+			res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.LOGIN_ERROR));
+			e.printStackTrace();
+		}
         return res;
     }
 
@@ -98,18 +134,30 @@ public class UtenteRempoImpl implements IUtenteRepo {
 	}
 
 	@Override
-	public UtenteResponse getAll() throws DataAccessException, SQLException {
+	public UtenteResponse getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public Integer getUtenteByEmail(String email) throws SQLException {
-		return jdbcUtil.queryForInteger(queryGetUtenteByEmail, new Object[]{email});
+	public Integer getUtenteByEmail(String email) {
+		try {
+			return jdbcUtil.queryForInteger(queryGetUtenteByEmail, new Object[]{email});
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	@Override
-	public Utente get(int id) throws DataAccessException, SQLException {
-		return jdbcUtil.queryForObj(queryGet, new Object[] {id}, rm);
+	public Utente get(int id) {
+		try {
+			return jdbcUtil.queryForObj(queryGet, new Object[] {id}, rm);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
     
 }

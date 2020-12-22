@@ -15,7 +15,6 @@ import com.ws.repository_impl.ModalitaPagamentoRepoImpl;
 import com.ws.repository_impl.NegozioRepoImpl;
 import com.ws.repository_impl.ProdottoRepoImpl;
 import com.ws.repository_impl.UtenteRempoImpl;
-import com.ws.utils.JdbcUtil;
 
 @Component
 public class AcquistoRowMapper implements RowMapper<Acquisto> {

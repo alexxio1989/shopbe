@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import com.ws.models.GiornoLavorativo;
 import com.ws.models.ModalitaPagamento;
 import com.ws.repository.IModalitaPagamentoRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
@@ -43,66 +42,98 @@ public class ModalitaPagamentoRepoImpl implements IModalitaPagamentoRepo{
     public JdbcUtil jdbcUtil;
 
 	@Override
-	public ModPagamentoResponse save(ModalitaPagamento obj) throws DataAccessException, SQLException {
+	public ModPagamentoResponse save(ModalitaPagamento obj)  {
 		return null;
 	}
 
 	@Override
-	public ModPagamentoResponse update(ModalitaPagamento obj) throws DataAccessException, SQLException {
-		jdbcUtil.update(queryUpdate, new Object[] {obj.getDescrizione() , obj.isEnable() , obj.getId() } );
+	public ModPagamentoResponse update(ModalitaPagamento obj)  {
+		ModPagamentoResponse modPagamentoResponse = null;
+		try {
+			jdbcUtil.update(queryUpdate, new Object[] {obj.getDescrizione() , obj.isEnable() , obj.getId() } );
+			modPagamentoResponse = new ModPagamentoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+		} catch (DataAccessException | SQLException e) {
+			modPagamentoResponse = new ModPagamentoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE_ERROR));
+			e.printStackTrace();
+		}
 
-		return getAll();
+		return getAll(modPagamentoResponse);
 	}
 
 	@Override
-	public ModPagamentoResponse get(ModalitaPagamento obj) throws DataAccessException, SQLException {
+	public ModPagamentoResponse get(ModalitaPagamento obj)  {
 		return null;
 	}
 
 	@Override
-	public ModPagamentoResponse getAll() throws DataAccessException, SQLException {
+	public ModPagamentoResponse getAll()  {
 		ModPagamentoResponse modPagamentoResponse = new ModPagamentoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-        List<ModalitaPagamento> list = jdbcUtil.query(queryGetAll , rm);
-        modPagamentoResponse.setList(list);
+        return getAll(modPagamentoResponse);
+	}
+
+	private ModPagamentoResponse getAll(ModPagamentoResponse modPagamentoResponse){
+		List<ModalitaPagamento> list;
+		try {
+			list = jdbcUtil.query(queryGetAll , rm);
+			modPagamentoResponse.setList(list);
+		} catch (DataAccessException | SQLException e) {
+			modPagamentoResponse = new ModPagamentoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET_ERROR));
+
+			e.printStackTrace();
+		}
 		return modPagamentoResponse;
 	}
 
 	@Override
-	public ModPagamentoResponse delete(ModalitaPagamento obj) throws DataAccessException, SQLException {
+	public ModPagamentoResponse delete(ModalitaPagamento obj)  {
 		return null;
 	}
 
 	@Override
-	public ModPagamentoResponse getAll(int id) throws DataAccessException, SQLException {
+	public ModPagamentoResponse getAll(int id)  {
 		return null;
 	}
 
 	@Override
-	public ModPagamentoResponse save(List<ModalitaPagamento> obj) throws DataAccessException, SQLException {
+	public ModPagamentoResponse save(List<ModalitaPagamento> obj)  {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModPagamentoResponse update(List<ModalitaPagamento> obj) throws DataAccessException, SQLException {
+	public ModPagamentoResponse update(List<ModalitaPagamento> obj)  {
+		ModPagamentoResponse modPagamentoResponse = null;
 		if(obj != null && obj.size() > 0) {
-			for (ModalitaPagamento mod : obj) {
-				jdbcUtil.update(queryUpdate, new Object[] {mod.getDescrizione() , mod.isEnable() , mod.getId() } );
+			try {
+				for (ModalitaPagamento mod : obj) {
+						jdbcUtil.update(queryUpdate, new Object[] {mod.getDescrizione() , mod.isEnable() , mod.getId() } );
+	
+				}
+				modPagamentoResponse = new ModPagamentoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
 
+			} catch (DataAccessException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-		return getAll();
+		return getAll(modPagamentoResponse);
 	}
 
 	@Override
-	public ModPagamentoResponse deleteAll(int id) throws DataAccessException, SQLException {
+	public ModPagamentoResponse deleteAll(int id)  {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModalitaPagamento get(int id) throws DataAccessException, SQLException {
-		return jdbcUtil.queryForObj(queryGet, new Object[] {id }, rm);
+	public ModalitaPagamento get(int id)  {
+		try {
+			return jdbcUtil.queryForObj(queryGet, new Object[] {id }, rm);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

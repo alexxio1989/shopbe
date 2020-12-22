@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -20,18 +18,12 @@ import org.springframework.stereotype.Repository;
 import com.ws.email.SendEmail;
 import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Acquisto;
-import com.ws.models.Dominio;
 import com.ws.models.Prodotto;
 import com.ws.repository.IAcquistoRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.AcquistoResponse;
-import com.ws.response.GiornoLavorativoResponse;
 import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.AcquistoRowMapper;
-import com.ws.rowmapper.GiornoLavorativoRowMapper;
-import com.ws.rowmapper.ModPagamentoRowMapper;
-import com.ws.rowmapper.ProdottoRowMapper;
-import com.ws.rowmapper.UtenteRowMapper;
 import com.ws.utils.JdbcUtil;
 
 @Repository
@@ -82,13 +74,16 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     
 
     @Override
-    public AcquistoResponse save(Acquisto obj) throws DataAccessException, SQLException {
-    	
+    public AcquistoResponse save(Acquisto obj){
+		AcquistoResponse acquistoResponse ;
+
     	
     	String codice_acquisto = generateCode();
     	obj.setCodiceAquisto(codice_acquisto);
     	obj.setStatus(EnumStatusAcquisto.getStatus("DC"));
-    	for (Prodotto prodotto : obj.getProdotti()) {
+		try {
+			acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+	    	for (Prodotto prodotto : obj.getProdotti()) {
     		
     		int prodotto_idprodotto = prodotto.getId();
     		int utente_idutente = obj.getUtente().getId();
@@ -100,18 +95,30 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     		Date data_consegna_prevista = null;
     		BigDecimal qnt = prodotto.getQnt();
     		
-    		jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
-		}
-    	email.sendEmailAquisto(obj);
+				jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
+		    }
+	    	email.sendEmailAquisto(obj);
+	    	return getAll(acquistoResponse);
+    	} catch (DataAccessException | SQLException e) {
+    		acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+    		e.printStackTrace();
+    	}
+		return acquistoResponse;
 
 
-        return getAll();
     }
 
     @Override
-    public AcquistoResponse update(Acquisto obj) throws DataAccessException, SQLException {
-    	jdbcUtil.update(queryUpdate, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
-        return getAll();
+    public AcquistoResponse update(Acquisto obj){
+    	AcquistoResponse acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+    	try {
+			jdbcUtil.update(queryUpdate, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
+			return getAll(acquistoResponse);
+		} catch (DataAccessException | SQLException e) {
+			acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE_ERROR));
+			e.printStackTrace();
+		}
+		return acquistoResponse;
     }
 
     @Override
@@ -127,16 +134,28 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     }
 
 	@Override
-	public AcquistoResponse getAll() throws DataAccessException, SQLException {
+	public AcquistoResponse getAll(){
 
 		AcquistoResponse acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
 		
-        List<Acquisto> listAquisti = jdbcUtil.query(queryGet, rm);
+        return getAll(acquistoResponse);
+	}
+
+
+
+	private AcquistoResponse getAll(AcquistoResponse acquistoResponse) {
+		List<Acquisto> listAquisti;
+		try {
+			listAquisti = jdbcUtil.query(queryGet, rm);
+			List<Acquisto> newList = getListAcquisti(listAquisti);
+			acquistoResponse.setList(newList);
+			
+			acquistoResponse.setListStatus(EnumStatusAcquisto.getAll());
+		} catch (DataAccessException | SQLException e) {
+			acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET_ERROR));
+			e.printStackTrace();
+		}
 		
-		List<Acquisto> newList = getListAcquisti(listAquisti);
-		acquistoResponse.setList(newList);
-		
-		acquistoResponse.setListStatus(EnumStatusAcquisto.getAll());
 
 		return acquistoResponse;
 	}
@@ -144,14 +163,21 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 
 
 	@Override
-	public List<Acquisto> getAllUtente(int id) throws DataAccessException, SQLException {
+	public List<Acquisto> getAllUtente(int id) {
 		
-		List<Acquisto> listAquisti = jdbcUtil.query(queryGetUtente, new Object[]{id} , rm);
+		List<Acquisto> listAquisti = null;
+		try {
+			listAquisti = jdbcUtil.query(queryGetUtente, new Object[]{id} , rm);
+			List<Acquisto> newList = getListAcquisti(listAquisti);
+			return newList;
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listAquisti;
 		
-		List<Acquisto> newList = getListAcquisti(listAquisti);
 		
 
-		return newList;
 	}
 
 

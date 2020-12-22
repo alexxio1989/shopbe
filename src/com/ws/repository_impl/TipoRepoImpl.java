@@ -43,16 +43,18 @@ public class TipoRepoImpl implements ITipoRepo{
     protected String queryGetAll;
 
     @Override
-    public TipoResponse save(Dominio obj) throws DataAccessException, SQLException {
+    public TipoResponse save(Dominio obj)  {
+    	TipoResponse response = null;
+    	String code = Utils.createCode(obj.getDescrizione());
         try {
-        	String code = Utils.createCode(obj.getDescrizione());
-            jdbcUtil.update(querySave,new Object[] { code , obj.getDescrizione()});
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return getAll();
+			jdbcUtil.update(querySave,new Object[] { code , obj.getDescrizione()});
+			response = new TipoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+		} catch (DataAccessException | SQLException e) {
+			response = new TipoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+			e.printStackTrace();
+		}
+       
+        return getAll(response);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class TipoRepoImpl implements ITipoRepo{
     }
 
     @Override
-    public TipoResponse get(Dominio obj) throws DataAccessException, SQLException {
+    public TipoResponse get(Dominio obj)  {
         return null;
     }
 
@@ -72,16 +74,33 @@ public class TipoRepoImpl implements ITipoRepo{
     }
 
     @Override
-    public TipoResponse delete(Dominio obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryDelete,new Object[] { obj.getId()});
-        return getAll();
+    public TipoResponse delete(Dominio obj)  {
+    	TipoResponse response = null;
+        try {
+			jdbcUtil.update(queryDelete,new Object[] { obj.getId()});
+			response = new TipoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.DELETE));
+		} catch (DataAccessException | SQLException e) {
+			response = new TipoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.DELETE_ERROR));
+			e.printStackTrace();
+		}
+        return getAll(response);
     }
 
 	@Override
-	public TipoResponse getAll() throws DataAccessException, SQLException {
+	public TipoResponse getAll()  {
 		TipoResponse response = new TipoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-        List<Dominio> list = getList();
-        response.setList(list);
+        return getAll(response);
+	}
+
+	private TipoResponse getAll(TipoResponse response){
+		List<Dominio> list;
+		try {
+			list = getList();
+			response.setList(list);
+		} catch (SQLException e) {
+			response = new TipoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			e.printStackTrace();
+		}
         return response;
 	}
     

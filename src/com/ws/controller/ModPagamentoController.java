@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ws.controller.core.IController;
-import com.ws.models.GiornoLavorativo;
 import com.ws.models.ModalitaPagamento;
 import com.ws.repository_impl.ModalitaPagamentoRepoImpl;
-import com.ws.response.GiornoLavorativoResponse;
 import com.ws.response.ModPagamentoResponse;
 import com.ws.utils.Utils;
 

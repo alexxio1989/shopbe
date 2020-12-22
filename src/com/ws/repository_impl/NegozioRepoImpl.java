@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import com.ws.models.GiornoLavorativo;
 import com.ws.models.Negozio;
 import com.ws.models.Recapito;
 import com.ws.repository.INegozioRepo;
@@ -55,23 +54,37 @@ public class NegozioRepoImpl implements INegozioRepo {
     protected String queryGetAll;
 
     @Override
-    public NegozioResponse save(Negozio obj) throws DataAccessException, SQLException {
+    public NegozioResponse save(Negozio obj)  {
+    	NegozioResponse negozioResponse = null;
         Recapito newRecapito = null;
        
-        newRecapito = recapitoRepo.save(obj.getRecapito());
         
-        if(newRecapito != null){
-            int id = jdbcUtil.saveAndGetId( new Object[] { obj.getNome(), newRecapito.getId() } , querySave);
-            obj.getGiorniLavorativi().stream().forEach(g ->  g.setIdNegozio(id));
-            giorniRepo.save(obj.getGiorniLavorativi());
-        }
+            int id;
+			try {
+				newRecapito = recapitoRepo.save(obj.getRecapito());
+				if(newRecapito != null){
+					id = jdbcUtil.saveAndGetId( new Object[] { obj.getNome(), newRecapito.getId() } , querySave);
+					obj.getGiorniLavorativi().stream().forEach(g ->  g.setIdNegozio(id));
+					giorniRepo.save(obj.getGiorniLavorativi());
+				}
+				negozioResponse = new NegozioResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+			} catch (SQLException e) {
+				negozioResponse = new NegozioResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+				e.printStackTrace();
+			}
+        
 
-        return getAll();
+        return getAll(negozioResponse);
     }
 
     @Override
-    public NegozioResponse update(Negozio obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryUpdate, new Object[] { obj.getNome() , obj.getId()});
+    public NegozioResponse update(Negozio obj)  {
+        try {
+			jdbcUtil.update(queryUpdate, new Object[] { obj.getNome() , obj.getId()});
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         obj.getGiorniLavorativi().stream().forEach(g ->  g.setIdNegozio(obj.getId()));
         giorniRepo.update(obj.getGiorniLavorativi());
 
@@ -79,31 +92,51 @@ public class NegozioRepoImpl implements INegozioRepo {
     }
 
     @Override
-    public NegozioResponse get(Negozio obj) throws DataAccessException, SQLException {
+    public NegozioResponse get(Negozio obj)  {
         return null;
     }
 
     @Override
-    public NegozioResponse delete(Negozio obj) throws DataAccessException, SQLException {
-        jdbcUtil.update(queryDelete, new Object[] { obj.getId()});
+    public NegozioResponse delete(Negozio obj)  {
+        try {
+			jdbcUtil.update(queryDelete, new Object[] { obj.getId()});
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		giorniRepo.deleteAll(obj.getId() );
         return getAll();
     }
 
 	@Override
-	public NegozioResponse getAll() throws DataAccessException, SQLException {
+	public NegozioResponse getAll()  {
 		NegozioResponse negozioResponse = new NegozioResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-        List<Negozio> list = jdbcUtil.query(queryGetAll, rm);
-        negozioResponse.setList(list);
-        for (Negozio negozio : list) {
-        	negozio.setGiorniLavorativi(giorniRepo.getAll(negozio.getId()).getGiorniLavorativi());
+        return getAll(negozioResponse);
+	}
+
+	private NegozioResponse getAll(NegozioResponse negozioResponse) {
+		List<Negozio> list;
+		try {
+			list = jdbcUtil.query(queryGetAll, rm);
+			negozioResponse.setList(list);
+			for (Negozio negozio : list) {
+				negozio.setGiorniLavorativi(giorniRepo.getAll(negozio.getId()).getGiorniLavorativi());
+			}
+		} catch (DataAccessException | SQLException e) {
+			negozioResponse = new NegozioResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			e.printStackTrace();
 		}
         return negozioResponse;
 	}
 
 	@Override
-	public Negozio get(int id) throws DataAccessException, SQLException {
-		jdbcUtil.queryForObj(queryGet, new Object[] {id}, rml);
+	public Negozio get(int id)  {
+		try {
+			jdbcUtil.queryForObj(queryGet, new Object[] {id}, rml);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
     

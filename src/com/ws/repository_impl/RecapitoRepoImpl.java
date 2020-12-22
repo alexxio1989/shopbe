@@ -34,31 +34,43 @@ public class RecapitoRepoImpl implements IRecapitoRepo {
     protected String queryGet;
 
     @Override
-    public Recapito save(Recapito obj) throws DataAccessException, SQLException {
-        int id = jdbcUtil.saveAndGetId(new Object[] {obj.getIndirizzo(),obj.getZip(),obj.getTelefono(),obj.getCitta()}, querySave);
+    public Recapito save(Recapito obj)  {
+        int id;
         Recapito findRecapito = new Recapito();
-        findRecapito.setId(id);
+		try {
+			id = jdbcUtil.saveAndGetId(new Object[] {obj.getIndirizzo(),obj.getZip(),obj.getTelefono(),obj.getCitta()}, querySave);
+			findRecapito.setId(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return get(findRecapito);
     }
 
     @Override
-    public Recapito update(Recapito obj) throws DataAccessException, SQLException {
+    public Recapito update(Recapito obj)  {
         return null;
     }
 
     @Override
-    public Recapito get(Recapito obj) throws DataAccessException, SQLException {
-        return jdbcUtil.queryForObj(queryGet, new Object[]{obj.getId()} , rm);
+    public Recapito get(Recapito obj)  {
+        try {
+			return jdbcUtil.queryForObj(queryGet, new Object[]{obj.getId()} , rm);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return obj;
     }
 
     @Override
-    public Recapito delete(Recapito obj) throws DataAccessException, SQLException {
+    public Recapito delete(Recapito obj)  {
         // TODO Auto-generated method stub
         return null;
     }
 
 	@Override
-	public Recapito getAll() throws DataAccessException, SQLException {
+	public Recapito getAll()  {
 		// TODO Auto-generated method stub
 		return null;
 	}

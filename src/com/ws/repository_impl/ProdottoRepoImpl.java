@@ -42,45 +42,55 @@ public class ProdottoRepoImpl implements IProdottoRepo {
     protected String queryGetAll;
 
     @Override
-    public ProdottoResponse save(Prodotto obj) throws DataAccessException, SQLException {
-        try {
+    public ProdottoResponse save(Prodotto obj)  {
+    	ProdottoResponse prodottoResponse = null;
+    	try {
+       
             jdbcUtil.update(querySave,new Object[] { obj.getNomeProdotto(), 
                                                      obj.getDescrizione(),
                                                      obj.getImage(), 
                                                      obj.getPrezzo() , 
                                                      obj.getTipo().getId() , obj.getUnita() , obj.getStep() });
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return getAll();
+            prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+        }  catch (DataAccessException | SQLException e) {
+        	 prodottoResponse = new ProdottoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+			e.printStackTrace();
+		}
+       
+        return getAll(prodottoResponse);
     }
 
     @Override
-    public ProdottoResponse update(Prodotto obj) throws DataAccessException, SQLException {
+    public ProdottoResponse update(Prodotto obj)  {
+    	ProdottoResponse prodottoResponse = null;
         try {
             jdbcUtil.update(queryUpdate,new Object[] { obj.getNomeProdotto(), 
                                                      obj.getDescrizione(),
                                                      obj.getImage(), 
                                                      obj.getPrezzo() ,obj.getUnita(), obj.getStep() , obj.getId() });
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return getAll();
+            prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+        } catch (DataAccessException | SQLException e) {
+        	 prodottoResponse = new ProdottoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+			e.printStackTrace();
+		}
+        return getAll(prodottoResponse);
     }
 
     @Override
-    public ProdottoResponse get(Prodotto obj) throws DataAccessException, SQLException {
-    	ProdottoResponse prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-    	prodottoResponse.setProdotto(jdbcUtil.queryForObj(queryGet, new Object[] {obj.getId()}, rm));
+    public ProdottoResponse get(Prodotto obj)  {
+    	ProdottoResponse prodottoResponse = null;
+    	try {
+    		prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			prodottoResponse.setProdotto(jdbcUtil.queryForObj(queryGet, new Object[] {obj.getId()}, rm));
+		} catch (DataAccessException | SQLException e) {
+			prodottoResponse = new ProdottoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			e.printStackTrace();
+		}
         return prodottoResponse;
     }
 
     @Override
-    public ProdottoResponse delete(Prodotto obj) throws DataAccessException, SQLException {
+    public ProdottoResponse delete(Prodotto obj)  {
         try {
             jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
         } catch (DataAccessException e) {
@@ -92,15 +102,31 @@ public class ProdottoRepoImpl implements IProdottoRepo {
     }
 
     @Override
-    public Prodotto get(int id) throws DataAccessException, SQLException {
-        return jdbcUtil.queryForObj(queryGet, new Object[]{id} , rm);
+    public Prodotto get(int id)  {
+        try {
+			return jdbcUtil.queryForObj(queryGet, new Object[]{id} , rm);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
 
 	@Override
-	public ProdottoResponse getAll() throws DataAccessException, SQLException {
+	public ProdottoResponse getAll()  {
 		ProdottoResponse prodottoResponse = new ProdottoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.GET));
-        List<Prodotto> list = jdbcUtil.query(queryGetAll , rm);
-        prodottoResponse.setList(list);
+        return getAll(prodottoResponse);
+	}
+
+	private ProdottoResponse getAll(ProdottoResponse prodottoResponse) {
+		List<Prodotto> list;
+		try {
+			list = jdbcUtil.query(queryGetAll , rm);
+			prodottoResponse.setList(list);
+		} catch (DataAccessException | SQLException e) {
+			prodottoResponse = new ProdottoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.GET));
+			e.printStackTrace();
+		}
         return prodottoResponse;
 	}
 }

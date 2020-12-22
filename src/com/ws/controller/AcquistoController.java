@@ -17,7 +17,6 @@ import com.ws.controller.core.IController;
 import com.ws.models.Acquisto;
 import com.ws.repository.IAcquistoRepo;
 import com.ws.response.AcquistoResponse;
-import com.ws.response.GiornoLavorativoResponse;
 import com.ws.utils.Utils;
 
 @RestController

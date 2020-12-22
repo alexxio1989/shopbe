@@ -35,9 +35,15 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
     protected String queryGet;
 
     @Override
-    public SubDominio save(SubDominio obj) throws DataAccessException, SQLException {
+    public SubDominio save(SubDominio obj)  {
     	String code = Utils.createCode(obj.getDescrizione());
-        int id = jdbcUtil.saveAndGetId(new Object[] { code,obj.getDescrizione(), obj.getTipoPadre().getId()},querySave);
+        int id = 0;
+		try {
+			id = jdbcUtil.saveAndGetId(new Object[] { code,obj.getDescrizione(), obj.getTipoPadre().getId()},querySave);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return get(id);
     }
 
@@ -48,13 +54,19 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
     }
 
     @Override
-    public SubDominio get(SubDominio obj) throws DataAccessException, SQLException {
+    public SubDominio get(SubDominio obj)  {
         int id = obj.getId();
         return get(id);
     }
 
-    public SubDominio get(int id) throws DataAccessException, SQLException {
-        return jdbcUtil.queryForObj(queryGet, new Object[] {id} , trrm);
+    public SubDominio get(int id)  {
+        try {
+			return jdbcUtil.queryForObj(queryGet, new Object[] {id} , trrm);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
     }
 
     @Override
@@ -64,7 +76,7 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
     }
 
 	@Override
-	public SubDominio getAll() throws DataAccessException, SQLException {
+	public SubDominio getAll()  {
 		// TODO Auto-generated method stub
 		return null;
 	}
