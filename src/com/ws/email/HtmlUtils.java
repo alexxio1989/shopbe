@@ -17,7 +17,7 @@ public class HtmlUtils {
 	
 	public static String getHtmlEmailAggiornaAcquisto(Acquisto acquisto) {
 		
-		String template = "src/main/resources/email-aggiornamento-acquisto.html.html";
+		String template = "src/main/resources/email-aggiornamento-acquisto.html";
 		String content = bufferHtml(template);
 		
 		Map<String, String> values = new HashMap<>();
