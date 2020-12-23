@@ -46,7 +46,7 @@ public class SendEmail {
 		Session session = getSession();
 		try {
 			String html = "";
-			html = HtmlUtils.getHtmlAquirenteAcquisto(acquisto);
+			html = HtmlUtils.getHtmlEmailAggiornaAcquisto(acquisto);
 			
 			String emailTo = acquisto.getUtente().getEmail();
 			send(session, html, emailTo , "Aggiornamento ordine n° " + acquisto.getCodiceAquisto().toUpperCase());
