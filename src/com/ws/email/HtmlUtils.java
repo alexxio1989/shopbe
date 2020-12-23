@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -25,9 +26,9 @@ public class HtmlUtils {
 		values.put("0", acquisto.getUtente().getNome());
 		values.put("1", acquisto.getCodiceAquisto().toUpperCase());
 		values.put("2", acquisto.getStatus().getDescrizione());
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
 		if("PAC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice()) || 
 				"CC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice())) {
-			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
 			
 			String consegnatoHtml = "<div class=\"row mt-4\">\n"
 					+ "			<div class=\"col-12\">\n"
@@ -54,6 +55,19 @@ public class HtmlUtils {
 				values.put("3", dataConsegnaHtml);
 				values.put("4", "");
 				
+			}
+		} else {
+			String consegnatoHtml = "<div class=\"row mt-4\">\n"
+					+ "			<div class=\"col-12\">\n"
+					+ "				<h6 style=\" font-family: sans-serif;\">Consegnato il: "+ df.format(new Date()) +"</h6>\n"
+					+ "			</div>\n"
+					+ "		</div>";
+			if(EnumStatusAcquisto.CONSEGNATO.getCode().equalsIgnoreCase(acquisto.getStatus().getCodice())) {
+				values.put("3", consegnatoHtml);
+				values.put("4", "");
+			}else {
+				values.put("3", "");
+				values.put("4", "");
 			}
 		}
 		
