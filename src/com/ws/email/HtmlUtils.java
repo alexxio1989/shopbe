@@ -47,7 +47,7 @@ public class HtmlUtils {
 					+ "			</div>\n"
 					+ "		</div>";
 			
-			if(EnumStatusAcquisto.CONSEGNATO.getCode().equalsIgnoreCase(acquisto.getStatus().getDescrizione())) {
+			if(EnumStatusAcquisto.CONSEGNATO.getCode().equalsIgnoreCase(acquisto.getStatus().getCodice())) {
 				values.put("3", consegnatoHtml);
 				values.put("4", indirizzoConsegnaHtml);
 			} else {
