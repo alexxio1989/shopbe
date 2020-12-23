@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.text.StringSubstitutor;
 
+import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Acquisto;
 
 public class HtmlUtils {
@@ -27,6 +28,18 @@ public class HtmlUtils {
 		if("PAC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice()) || 
 				"CC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice())) {
 			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
+			
+			String consegnatoHtml = "<div class=\"row mt-4\">\n"
+					+ "			<div class=\"col-12\">\n"
+					+ "				<h6 style=\" font-family: sans-serif;\">Consegnato il: "+ df.format(acquisto.getDataCosegnaPrevista()) +"</h6>\n"
+					+ "			</div>\n"
+					+ "		</div>";
+			
+			String indirizzoConsegnaHtml = "<div class=\"row mt-4\">\n"
+					+ "			<div class=\"col-12\">\n"
+					+ "				<h6 style=\" font-family: sans-serif;\">Al seguente Indirizzo: "+ acquisto.getUtente().getRecapito().getCitta() + " , " + acquisto.getUtente().getRecapito().getIndirizzo() +"</h6>\n"
+					+ "			</div>\n"
+					+ "		</div>";
 	
 			String dataConsegnaHtml = "<div class=\"row mt-4\">\n"
 					+ "			<div class=\"col-12\">\n"
@@ -34,7 +47,14 @@ public class HtmlUtils {
 					+ "			</div>\n"
 					+ "		</div>";
 			
-			values.put("3", dataConsegnaHtml);
+			if(EnumStatusAcquisto.CONSEGNATO.getCode().equalsIgnoreCase(acquisto.getStatus().getDescrizione())) {
+				values.put("3", consegnatoHtml);
+				values.put("4", indirizzoConsegnaHtml);
+			} else {
+				values.put("3", dataConsegnaHtml);
+				values.put("4", "");
+				
+			}
 		}
 		
 		
