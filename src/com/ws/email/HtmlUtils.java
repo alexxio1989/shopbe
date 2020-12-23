@@ -18,6 +18,31 @@ public class HtmlUtils {
 		String content = bufferHtml(template);
 
 		Map<String, String> values = new HashMap<>();
+		values.put("0", acquisto.getUtente().getNome());
+		values.put("1", acquisto.getCodiceAquisto().toUpperCase());
+		values.put("2", acquisto.getStatus().getDescrizione());
+		if("PAC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice()) || 
+				"CC".equalsIgnoreCase(acquisto.getModalitaPagamento().getCodice())) {
+			String dataConsegnaHtml = "<div class=\"row mt-4\">\n"
+					+ "			<div class=\"col-12\">\n"
+					+ "				<h6 style=\" font-family: sans-serif;\">Data consegna prevista: "+ acquisto.getDataCosegnaPrevista() +"</h6>\n"
+					+ "			</div>\n"
+					+ "		</div>";
+			
+			values.put("3", dataConsegnaHtml);
+		}
+		
+
+		String message = StringSubstitutor.replace(content, values, "{", "}");
+		return message;
+	}
+	
+	public static String getHtmlAggiornamentoAcquisto(Acquisto acquisto) {
+
+		String template = "src/main/resources/email-aggiornamento-acquisto.html";
+		String content = bufferHtml(template);
+
+		Map<String, String> values = new HashMap<>();
 		values.put("0", acquisto.getUtente().getNome() + " " + acquisto.getUtente().getCognome());
 		values.put("1", acquisto.getCodiceAquisto().toUpperCase());
 		values.put("2", acquisto.getStatus().getDescrizione());

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.ws.email.SendEmail;
 import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Acquisto;
+import com.ws.models.Magazino;
 import com.ws.models.Prodotto;
 import com.ws.repository.IAcquistoRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
@@ -43,6 +44,9 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     
     @Value("${acquisto.get.all.utente}")
     protected String queryGetUtente;
+    
+    @Autowired
+    protected MagazinoRepoImpl magazinoRepoImpl;
     
     @Autowired
     protected JdbcUtil jdbcUtil;
@@ -96,6 +100,13 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     		BigDecimal qnt = prodotto.getQnt();
     		
 				jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
+				Magazino magazzino = new Magazino();
+				prodotto.getQntRimanente();
+				
+				prodotto.setQntRimanente(prodotto.getQntRimanente().subtract(qnt));
+				magazzino.setProdottoSelected(prodotto);
+				magazzino.setIdNegozio(prodotto.getIdNegozio());
+				magazinoRepoImpl.update(magazzino );
 		    }
 	    	email.sendEmailAquisto(obj);
 	    	return getAll(acquistoResponse);
@@ -113,6 +124,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     	AcquistoResponse acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
     	try {
 			jdbcUtil.update(queryUpdate, new Object[] {obj.getDataCosegnaPrevista() , obj.getStatus().getCodice() , obj.getCodiceAquisto()});
+			email.sendEmailAggiornaAcquisto(obj);
 			return getAll(acquistoResponse);
 		} catch (DataAccessException | SQLException e) {
 			acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE_ERROR));

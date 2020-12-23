@@ -44,6 +44,11 @@ public class ProdottoRowMapper implements RowMapper<Prodotto> {
         		prodotto.setQntRimanente(rs.getBigDecimal("quantity"));
         	}
         }
+        if(hasColumn(rs,"negozio_idnegozio")){
+        	prodotto.setIdNegozio(rs.getInt("negozio_idnegozio"));
+        	
+        }
+        
         prodotto.setTipo(jdbcUtil.queryForObj(queryGet, new Object[] {rs.getInt("sotto_tipo_idsotto_tipo")} , trrm));
         return prodotto;
     }

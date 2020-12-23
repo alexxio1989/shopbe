@@ -42,6 +42,18 @@ public class SendEmail {
         sendEmailOwner1(session, acquisto);
 	}
 
+	public void sendEmailAggiornaAcquisto( Acquisto acquisto) {
+		Session session = getSession();
+		try {
+			String html = "";
+			html = HtmlUtils.getHtmlAquirenteAcquisto(acquisto);
+			
+			String emailTo = acquisto.getUtente().getEmail();
+			send(session, html, emailTo , "Aggiornamento ordine n° " + acquisto.getCodiceAquisto().toUpperCase());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void sendEmailAcquirente(Session session, Acquisto acquisto) {
 		try {
@@ -87,7 +99,7 @@ public class SendEmail {
 		msg.addHeader("format", "flowed");
 		msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-		msg.setFrom(new InternetAddress("alessiopinna.elis@gmail.com", "Learn-it No Reply"));
+		msg.setFrom(new InternetAddress("alessiopinna.elis@gmail.com", "Il Tempio di Bacco No Reply"));
 
 		msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
 

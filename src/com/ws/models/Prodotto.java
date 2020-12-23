@@ -14,6 +14,7 @@ public class Prodotto {
     private String unita;
     private BigDecimal qnt;
     private BigDecimal step;
+    private int idNegozio;
 
     public int getId() {
         return id;
@@ -93,6 +94,14 @@ public class Prodotto {
 
 	public void setStep(BigDecimal step) {
 		this.step = step;
+	}
+
+	public int getIdNegozio() {
+		return idNegozio;
+	}
+
+	public void setIdNegozio(int idNegozio) {
+		this.idNegozio = idNegozio;
 	}
 	
 	
