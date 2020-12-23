@@ -83,7 +83,7 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 
     	
     	String codice_acquisto = generateCode();
-    	obj.setCodiceAquisto(codice_acquisto);
+    	obj.setCodiceAquisto(obj.getUtente().getId() + codice_acquisto.toUpperCase());
     	obj.setStatus(EnumStatusAcquisto.getStatus("DC"));
 		try {
 			acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
