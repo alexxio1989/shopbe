@@ -14,6 +14,7 @@ com/ws/models/ModalitaPagamento.class
 com/ws/email/SendEmail.class
 com/ws/utils/Utils.class
 com/ws/models/Recapito.class
+com/ws/response/DatiPaginaResponse.class
 com/ws/rowmapper/AcquistoRowMapper.class
 com/ws/controller/AcquistoController.class
 com/ws/repository/ITipoRepo.class
@@ -43,6 +44,7 @@ com/ws/repository/core/IRepository.class
 com/ws/controller/TipoController.class
 com/ws/RunApplication.class
 com/ws/response/UtenteResponse.class
+com/ws/controller/DatiPaginaController.class
 com/ws/email/SendEmail$1.class
 com/ws/enums/StatusAcquisto.class
 com/ws/email/HtmlUtils.class
