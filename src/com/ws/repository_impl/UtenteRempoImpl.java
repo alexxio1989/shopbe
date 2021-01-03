@@ -42,6 +42,9 @@ public class UtenteRempoImpl implements IUtenteRepo {
     @Value("${utente.login}")
     protected String queryLogin;
     
+    @Value("${count.utente.by.email}")
+    protected String queryCountUtenteByEmail;
+    
     @Value("${get.utente.by.email}")
     protected String queryGetUtenteByEmail;
 
@@ -141,7 +144,7 @@ public class UtenteRempoImpl implements IUtenteRepo {
 	
 	public Integer getUtenteByEmail(String email) {
 		try {
-			return jdbcUtil.queryForInteger(queryGetUtenteByEmail, new Object[]{email});
+			return jdbcUtil.queryForInteger(queryCountUtenteByEmail, new Object[]{email});
 		} catch (DataAccessException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -158,6 +161,11 @@ public class UtenteRempoImpl implements IUtenteRepo {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+
+	public Utente getUserByEmail(String email) throws SQLException {
+		return jdbcUtil.queryForObj(queryGetUtenteByEmail, new Object[]{email}, rm);
 	}
     
 }
