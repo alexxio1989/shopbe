@@ -2,6 +2,7 @@ com/ws/controller/core/IController.class
 com/ws/repository_impl/NegozioRepoImpl.class
 com/ws/rowmapper/NegozioRowMapper.class
 com/ws/rowmapper/ProdottoRowMapper.class
+com/ws/service/StripeService.class
 com/ws/rowmapper/NegozioLiteRowMapper.class
 com/ws/response/TipoResponse.class
 com/ws/repository_impl/AcquistoRepoImpl.class

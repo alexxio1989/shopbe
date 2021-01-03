@@ -10,6 +10,10 @@ import com.ws.response.core.ResponseCore;
 
 public class AcquistoResponse extends ResponseCore {
 	
+	public AcquistoResponse() {
+		
+	}
+	
 	public AcquistoResponse(HttpStatus httpStatus , String status) {
 		super.setHttpStatus(httpStatus);
 		super.setStatus(status);

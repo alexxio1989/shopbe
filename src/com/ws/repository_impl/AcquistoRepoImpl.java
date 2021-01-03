@@ -25,6 +25,7 @@ import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.AcquistoResponse;
 import com.ws.response.enumresponse.ResponseStatus.EnumResponseStatus;
 import com.ws.rowmapper.AcquistoRowMapper;
+import com.ws.service.StripeService;
 import com.ws.utils.JdbcUtil;
 
 @Repository
@@ -57,6 +58,9 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
     @Autowired
     protected SendEmail email;
     
+    @Autowired
+    private StripeService stripeService;
+    
     
     public String generateCode() {
     	 
@@ -79,40 +83,52 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 
     @Override
     public AcquistoResponse save(Acquisto obj){
-		AcquistoResponse acquistoResponse ;
+		AcquistoResponse acquistoResponse = new AcquistoResponse() ;
 
     	
     	String codice_acquisto = generateCode();
     	obj.setCodiceAquisto(obj.getUtente().getId() + codice_acquisto.toUpperCase());
     	obj.setStatus(EnumStatusAcquisto.getStatus("DC"));
-		try {
-			acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
-	    	for (Prodotto prodotto : obj.getProdotti()) {
+    	boolean enable_acquisto = true;
+    	
+    	if("CC".equalsIgnoreCase(obj.getModalitaPagamento().getCodice())) {
+    		enable_acquisto = pay(obj);    
+    		if(!enable_acquisto) {
+    			acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+    		}
+    	}
+    	
+    	if(enable_acquisto) {
+    		try {
+    			acquistoResponse = new AcquistoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
+    			for (Prodotto prodotto : obj.getProdotti()) {
+    				
+    				int prodotto_idprodotto = prodotto.getId();
+    				int utente_idutente = obj.getUtente().getId();
+    				BigDecimal totale = obj.getTotale();
+    				int modalita_pagamento_idmodalita_pagamento = obj.getModalitaPagamento().getId();
+    				Date data_acquisto = new Date();
+    				Date data_ritiro = obj.getDataRitiro();
+    				int idNegozio_ritiro =  obj.getNegozioRitiro() != null ? obj.getNegozioRitiro().getId() : 0;
+    				Date data_consegna_prevista = null;
+    				BigDecimal qnt = prodotto.getQnt();
+    				
+    				jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
+    				Magazino magazzino = new Magazino();
+    				prodotto.getQntRimanente();
+    				
+    				prodotto.setQntRimanente(prodotto.getQntRimanente().subtract(qnt));
+    				magazzino.setProdottoSelected(prodotto);
+    				magazzino.setIdNegozio(prodotto.getIdNegozio());
+    				magazinoRepoImpl.update(magazzino );
+    			}
+    			email.sendEmailAquisto(obj);
+    			return getAll(acquistoResponse);
+    		} catch (DataAccessException | SQLException e) {
+    			acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
+    			e.printStackTrace();
+    		}
     		
-    		int prodotto_idprodotto = prodotto.getId();
-    		int utente_idutente = obj.getUtente().getId();
-    		BigDecimal totale = obj.getTotale();
-    		int modalita_pagamento_idmodalita_pagamento = obj.getModalitaPagamento().getId();
-    		Date data_acquisto = new Date();
-    		Date data_ritiro = obj.getDataRitiro();
-    		int idNegozio_ritiro =  obj.getNegozioRitiro() != null ? obj.getNegozioRitiro().getId() : 0;
-    		Date data_consegna_prevista = null;
-    		BigDecimal qnt = prodotto.getQnt();
-    		
-				jdbcUtil.update(querySave, new Object[] {prodotto_idprodotto,utente_idutente,totale,codice_acquisto,modalita_pagamento_idmodalita_pagamento,data_acquisto,data_ritiro,idNegozio_ritiro,data_consegna_prevista,EnumStatusAcquisto.DA_CONFERMARE.getCode(),qnt});
-				Magazino magazzino = new Magazino();
-				prodotto.getQntRimanente();
-				
-				prodotto.setQntRimanente(prodotto.getQntRimanente().subtract(qnt));
-				magazzino.setProdottoSelected(prodotto);
-				magazzino.setIdNegozio(prodotto.getIdNegozio());
-				magazinoRepoImpl.update(magazzino );
-		    }
-	    	email.sendEmailAquisto(obj);
-	    	return getAll(acquistoResponse);
-    	} catch (DataAccessException | SQLException e) {
-    		acquistoResponse = new AcquistoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE_ERROR));
-    		e.printStackTrace();
     	}
 		return acquistoResponse;
 
@@ -230,6 +246,19 @@ public class AcquistoRepoImpl implements IAcquistoRepo{
 			newList.add(acquisto);
 		}
 		return newList;
+	}
+	
+	
+	public boolean pay(Acquisto acquisto) {
+		
+			if (acquisto.getStripeToken() == null) {
+				return false;
+			}
+			String chargeId = stripeService.createCharge(acquisto); // $9.99 USD
+			if (chargeId == null) {
+				return false;
+			}
+			return true;	
 	}
     
 }

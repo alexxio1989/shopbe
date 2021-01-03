@@ -65,6 +65,7 @@
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/rowmapper/MagazinoRowMapper.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/TipoRepoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/RunApplication.java
+/Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/service/StripeService.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/models/Magazino.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/repository_impl/UtenteRempoImpl.java
 /Users/alessiopinna/Documents/workspaces/il-tempio-di-bacco/shopbe/src/com/ws/enums/StatusAcquisto.java
