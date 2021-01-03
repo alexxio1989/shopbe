@@ -63,7 +63,8 @@ public class JwtTokenUtil implements Serializable {
 		builder.setClaims(claims);
 		builder.setSubject(subject);
 		builder.setIssuedAt(new Date(System.currentTimeMillis()));
-		builder.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000));
+		Date exp = new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000);
+		builder.setExpiration(exp);
 		String tocken = builder.signWith(SignatureAlgorithm.HS512, secret).compact();
 		return tocken;
 	}

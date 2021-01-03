@@ -59,7 +59,7 @@ public class UtenteRempoImpl implements IUtenteRepo {
     		res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
     		Recapito recapito = recapitoRepo.save(obj.getRecapito());
     		try {
-				jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 3 , recapito.getId());
+				jdbcUtil.update(querySave, obj.getNome() ,obj.getCognome(),obj.getEmail() , obj.getPassword() , 6 , recapito.getId());
 				res = new UtenteResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
 			} catch (DataAccessException | SQLException e) {
 				res = new UtenteResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.SAVE));
