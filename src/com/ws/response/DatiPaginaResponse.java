@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import com.ws.models.Acquisto;
 import com.ws.models.Dominio;
 import com.ws.models.Negozio;
+import com.ws.models.Status;
 import com.ws.response.core.ResponseCore;
 
 public class DatiPaginaResponse extends ResponseCore{
@@ -21,6 +22,8 @@ public class DatiPaginaResponse extends ResponseCore{
 	    private List<Dominio> listTipo;
 	    
 	    private List<Acquisto> listAcquisti;
+	    
+	    private List<Status> listStatus;
 
 	    private Negozio negozio;
 
@@ -54,6 +57,14 @@ public class DatiPaginaResponse extends ResponseCore{
 
 		public void setListAcquisti(List<Acquisto> listAcquisti) {
 			this.listAcquisti = listAcquisti;
+		}
+
+		public List<Status> getListStatus() {
+			return listStatus;
+		}
+
+		public void setListStatus(List<Status> listStatus) {
+			this.listStatus = listStatus;
 		}
 
 }

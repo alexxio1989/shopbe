@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ws.enums.StatusAcquisto.EnumStatusAcquisto;
 import com.ws.models.Negozio;
 import com.ws.repository.IAcquistoRepo;
 import com.ws.repository.INegozioRepo;
@@ -52,6 +53,7 @@ public class DatiPaginaController {
 		datiPaginaResponse.setList(res);
 		datiPaginaResponse.setListTipo(repoTipo.getAll().getList());
 		datiPaginaResponse.setListAcquisti(repoAcquisto.getAll().getList());
+		datiPaginaResponse.setListStatus(EnumStatusAcquisto.getAll());
 		return Utils.getResponseEntity(datiPaginaResponse, all.getHttpStatus());
 		
 	}
