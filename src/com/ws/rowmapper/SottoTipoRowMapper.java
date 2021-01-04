@@ -32,6 +32,7 @@ public class SottoTipoRowMapper implements RowMapper<SubDominio> {
         dominio.setId(rs.getInt("idsotto_tipo"));
         dominio.setCodice(rs.getString("codice_figlio"));
         dominio.setDescrizione(rs.getString("descrizione_figlio"));
+        dominio.setIdPadre(rs.getInt("tipo_idtipo"));
         List<Prodotto> prodottiAssociati = jdbcUtil.query(queryGetProdottiAssociati ,new Object[] {rs.getInt("idsotto_tipo")} ,  rm);;
 		dominio.setProdottiAssociati(prodottiAssociati);
         return dominio;

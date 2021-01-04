@@ -6,6 +6,6 @@ import com.ws.repository.core.IRepository;
 
 
 public interface ISottoTipoRepo extends IRepository<SubDominio,SubDominio>{
-
+	public boolean deleteAll(SubDominio subDominio);
     
 }

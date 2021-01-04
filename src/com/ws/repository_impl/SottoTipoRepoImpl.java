@@ -27,12 +27,18 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
 
     @Value("${sotto.tipo.delete}")
     protected String queryDelete;
+    
+    @Value("${sotto.tipo.delete.all}")
+    protected String queryDeleteAll;
 
     @Value("${sotto.tipo.update}")
     protected String queryUpdate;
 
     @Value("${sotto.tipo.get}")
     protected String queryGet;
+    
+    @Autowired
+    private ProdottoRepoImpl prodottoRepoImpl;
 
     @Override
     public SubDominio save(SubDominio obj)  {
@@ -49,8 +55,15 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
 
     @Override
     public SubDominio update(SubDominio obj) {
-        // TODO Auto-generated method stub
-        return null;
+    	String code = Utils.createCode(obj.getDescrizione());
+    	 try {
+             jdbcUtil.update(queryUpdate,new Object[] {code , obj.getDescrizione(), obj.getId() });
+         } catch (DataAccessException e) {
+             e.printStackTrace();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+        return get(obj.getId());
     }
 
     @Override
@@ -71,14 +84,34 @@ public class SottoTipoRepoImpl implements ISottoTipoRepo{
 
     @Override
     public SubDominio delete(SubDominio obj) {
-        // TODO Auto-generated method stub
-        return null;
+    	 try {
+     		 prodottoRepoImpl.deleteBySubTipo(obj);
+             jdbcUtil.update(queryDelete,new Object[] { obj.getId() });
+         } catch (DataAccessException e) {
+             e.printStackTrace();
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+         return null;
     }
 
+    @Override
+    public boolean deleteAll(SubDominio subDominio) {
+    	try {
+    		prodottoRepoImpl.deleteBySubTipo(subDominio);
+            jdbcUtil.update(queryDelete,new Object[] { subDominio.getIdPadre()});
+            return true;
+        }catch (DataAccessException | SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
 	@Override
 	public SubDominio getAll()  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
     
 }

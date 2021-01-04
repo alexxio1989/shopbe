@@ -3,6 +3,7 @@ package com.ws.repository;
 import java.util.List;
 
 import com.ws.models.Acquisto;
+import com.ws.models.Prodotto;
 import com.ws.repository.core.IRepository;
 import com.ws.response.AcquistoResponse;
 

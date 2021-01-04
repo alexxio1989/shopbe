@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import com.ws.models.Dominio;
+import com.ws.models.SubDominio;
 import com.ws.repository.ITipoRepo;
 import com.ws.repository.repoenums.Metodi.EnumMetodi;
 import com.ws.response.TipoResponse;
@@ -41,6 +42,8 @@ public class TipoRepoImpl implements ITipoRepo{
 
     @Value("${tipo.get.all}")
     protected String queryGetAll;
+    
+    private SottoTipoRepoImpl sottoTipoRepoImpl;
 
     @Override
     public TipoResponse save(Dominio obj)  {
@@ -59,8 +62,16 @@ public class TipoRepoImpl implements ITipoRepo{
 
     @Override
     public TipoResponse update(Dominio obj) {
-        // TODO Auto-generated method stub
-        return null;
+    	TipoResponse response = null;
+    	String code = Utils.createCode(obj.getDescrizione());
+   	 try {
+            jdbcUtil.update(queryUpdate,new Object[] {code , obj.getDescrizione(), obj.getId() });
+            response = new TipoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.UPDATE));
+        } catch (DataAccessException | SQLException e) {
+			response = new TipoResponse(HttpStatus.BAD_REQUEST, EnumResponseStatus.getStatus(EnumMetodi.UPDATE_ERROR));
+			e.printStackTrace();
+		}
+       return getAll(response);
     }
 
     @Override
@@ -77,6 +88,11 @@ public class TipoRepoImpl implements ITipoRepo{
     public TipoResponse delete(Dominio obj)  {
     	TipoResponse response = null;
         try {
+        	if(obj.getSottoTipi() != null && obj.getSottoTipi().size() > 0) {
+        		for (SubDominio iterable_element : obj.getSottoTipi()) {
+        			sottoTipoRepoImpl.deleteAll(iterable_element);
+        		}
+        	}
 			jdbcUtil.update(queryDelete,new Object[] { obj.getId()});
 			response = new TipoResponse(HttpStatus.OK, EnumResponseStatus.getStatus(EnumMetodi.DELETE));
 		} catch (DataAccessException | SQLException e) {

@@ -39,6 +39,9 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
 
     @Value("${magazino.delete}")
     protected String queryDelete;
+    
+    @Value("${magazino.delete.by.prodotto}")
+    protected String queryDeleteByProdotto;
 
     @Value("${magazino.update}")
     protected String queryUpdate;
@@ -150,6 +153,18 @@ public class MagazinoRepoImpl implements IMagazinoRepo{
 	public Magazino getAll(){
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean delete(Prodotto obj) {
+		 try {
+				jdbcUtil.update(queryDeleteByProdotto, new Object[] {obj.getId() });
+				return true;
+			} catch (DataAccessException | SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+	        
 	}
 
 }
